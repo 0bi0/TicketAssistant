@@ -4,24 +4,11 @@ from discord import app_commands
 from discord import client
 
 from cogs.permissions import (
-    SUPPORT_ROLES,
-    STATS_ALLOWED_ROLES,
-    DATABASE_PERMS,
-    MANAGE_USER_PERMS,
     PRIVILEGED_USERS,
 
     has_manage_perms_permission,
 )
 
-
-
-# Syncs imports with cogs.permissions
-_PERMISSIONS_EXPORT = (
-    SUPPORT_ROLES,
-    STATS_ALLOWED_ROLES,
-    DATABASE_PERMS,
-    MANAGE_USER_PERMS,
-)
 
 
 

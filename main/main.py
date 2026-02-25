@@ -1,30 +1,17 @@
 # Necessary imports
-from contextlib import nullcontext
-from operator import call
 import discord
 from discord import app_commands
-from dotenv import load_dotenv
 import aiosqlite
 import importlib
 import time
 import os
-import sys
-import requests
 
 
 from cogs.permissions import (
-    SUPPORT_ROLES,
-    STATS_ALLOWED_ROLES,
-    DATABASE_PERMS,
-    MANAGE_USER_PERMS,
     PRIVILEGED_USERS,
     TICKET_CATEGORIES,
 
-    is_staff,
     has_stats_permission,
-    has_database_permission,
-    has_manage_perms_permission,
-    get_ticket_category,
 )
 
 
@@ -56,7 +43,7 @@ tree.add_command(privilegedusers)
 
 
 # Your bot token
-TOKEN = "[REDACTED]"
+TOKEN = "your_token_goes_here"
 
 # TicketsV2 UserID
 TICKETS_BOT_ID = 1325579039888511056
