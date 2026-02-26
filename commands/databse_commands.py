@@ -15,7 +15,6 @@ from cogs.permissions import (
 # The wipe command can be useful for databse resets
 # and for other miscellaneous reasons
 
-# Creates the command and sets its permissions
 @app_commands.command(name="wipestats", description="Permanently delete ticket data from a specific period")
 @app_commands.describe(days="Wipe data older than this many days (e.g. 30d)")
 async def wipestats(interaction: discord.Interaction, days: int):
@@ -30,12 +29,12 @@ async def wipestats(interaction: discord.Interaction, days: int):
     try:
         await interaction.client.db.execute("""
             DELETE FROM messages 
-            WHERE timestamp >= ?
+            WHERE timestamp <= ?
         """, (cutoff_time,))
 
-        cursor = interaction.client.db.execute("""
+        cursor = await interaction.client.db.execute("""
             DELETE FROM tickets 
-            WHERE opened_at >= ?
+            WHERE opened_at <= ?
         """, (cutoff_time,))
         
         deleted_count = cursor.rowcount

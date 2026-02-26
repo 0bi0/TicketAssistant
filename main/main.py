@@ -56,15 +56,15 @@ TICKETS_BOT_ID = 1325579039888511056
 # Sequence for when bot starts
 @client.event
 async def on_ready():
+    # Connect ONCE
+    client.db = await aiosqlite.connect("tickets.db")
     
     commands_path = os.path.join(os.path.dirname(__file__), "..", "commands")
-
-    for filename in os.listdir(commands_path):
-        if filename.endswith(".py") and not filename.startswith("__"):
-            module_name = f"commands.{filename[:-3]}"
-            importlib.import_module(module_name)
-            # Connects to DataBase
-            client.db = await aiosqlite.connect("tickets.db")
+    if os.path.exists(commands_path):
+        for filename in os.listdir(commands_path):
+            if filename.endswith(".py") and not filename.startswith("__"):
+                module_name = f"commands.{filename[:-3]}"
+                importlib.import_module(module_name)
 
     # Base table
     await client.db.execute("""
