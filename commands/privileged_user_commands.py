@@ -11,7 +11,6 @@ from cogs.permissions import (
 
 
 
-
 # ===| Max perms add command |===
 #
 # Adds max permissions to a user

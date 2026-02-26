@@ -43,7 +43,7 @@ tree.add_command(privilegedusers)
 
 
 # Your bot token
-TOKEN = "your_token_goes_here"
+TOKEN = "MTQ2NTA2NzE3MzQyMzg3NDA0OA.Gr_itP.0ar_zdfeQhjPubNYn03wjscE8OoLa8bFWjR1ic"
 
 # TicketsV2 UserID
 TICKETS_BOT_ID = 1325579039888511056
@@ -177,7 +177,7 @@ async def run_ticket_stats(interaction: discord.Interaction, days: int, category
             WHERE opened_at >= ?
         """
         params = (since,)
-        label = "All Categories"
+        label = "all categories"
     else:
         category_name = TICKET_CATEGORIES[category_key]
         query = """
@@ -257,13 +257,13 @@ async def run_ticket_stats(interaction: discord.Interaction, days: int, category
         return f"{h}h {m}m {s}s"
 
     # Header for the `/ticketstatistics <category>` command
-    embed = discord.Embed(
-        title="Ticket Statistics",
-        description=f"{label} | Past {days} day(s)",
-        color=discord.Color.blue()
+    description_content = (
+        f"# 📊 Ticket Statistics\n"
+        f"-# Showing stats for {label} over the past {days} day(s)\n\n"
+        f"**•ㅤTotal Tickets**: `{len(tickets)}`\n"
     )
 
-    breakdown_text = ""
+    # Only adds the breakdown if not filtering by a specific category
     if category_key is None:
         counts = {"General Tickets": 0, "Player-Reports": 0, "Appeals": 0, "Unknown": 0}
         for _, _, _, cat in rows:
@@ -271,27 +271,23 @@ async def run_ticket_stats(interaction: discord.Interaction, days: int, category
             counts[cat] = counts.get(cat, 0) + 1
 
         # Displays the first set of information for tickets
-        breakdown_text = (
-            f"・General: {counts.get('General Tickets', 0)}\n"
-            f"・Reports: {counts.get('Player-Reports', 0)}\n"
-            f"・Appeals: {counts.get('Appeals', 0)}\n"
-            "–––––––––––––––––––––––––––––––––––\n"
+        description_content += (
+            f"**•ㅤGeneral**: `{counts.get('General Tickets', 0)}`\n"
+            f"**•ㅤReports**: `{counts.get('Player-Reports', 0)}`\n"
+            f"**•ㅤAppeals**: `{counts.get('Appeals', 0)}`\n"
         )
 
     # Displays the second set of information for tickets
-    general_stats_value = (
-        "–––––––––––––––––––––––––––––––––––\n"
-        f"・Total Tickets: {len(tickets)}\n"
-        + breakdown_text +
-        f"・Peak Concurrent: {peak_open}\n"
-        f"・Avg. First Response: {fmt(avg_first)}\n"
-        f"・Avg. Staff Response Time: {fmt(avg_rep_response)}\n"
-        f"・Avg. Handling Time: {fmt(avg_handle)}\n"
-        "––––––––––––––––––––––––––––––––––"
+    description_content += (
+        f"**•ㅤPeak Concurrent**: `{peak_open}`\n"
+        f"**•ㅤAverage Initial Response**: `{fmt(avg_first)}`\n"
+        f"**•ㅤAverage Response Time**: `{fmt(avg_rep_response)}`\n"
+        f"**•ㅤAverage Duration**: `{fmt(avg_handle)}`"
     )
 
-    # Footer + Send message argument
-    embed.add_field(name="📊 Statistics Breakdown", value=general_stats_value, inline=False)
+    embed = discord.Embed(description=description_content,color=discord.Color.from_rgb(0, 189, 247))
+
+    # Sends message
     await interaction.response.send_message(embed=embed)
 
 
