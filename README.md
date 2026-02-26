@@ -44,7 +44,7 @@ To run the bot, you must create your own Discord application:
 
 ## 🔐 Environment Variables
 
-In `main.py`, in your project root, configure the following:
+In `permissions.py`, in your project root, configure the following:
 - **DISCORD_TOKEN**="your_discord_bot_token"
 - **SUPPORT_ROLES**="your_support_representatives"
 - **STATS_ALLOWED_ROLES**="ticket_manager_roles"
@@ -59,7 +59,6 @@ In `main.py`, in your project root, configure the following:
 ## 💻 Commands
 
 **Ticket Stat commands:**
-- `/ticketstats all <days>` - Shows stats for all ticket categories in last X days
 - `/ticketstats <category> <days>` - Shows stats for the specified category
 
 **Ticket DataBase commands:**
