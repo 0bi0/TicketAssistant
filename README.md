@@ -62,7 +62,7 @@ In `permissions.py`, in your project root, configure the following:
 - `/ticketstats <category> <days>` - Shows stats for the specified category
 
 **Ticket DataBase commands:**
-- `/wipestats` - Wipes the database of all information (System-Admin+)
+- `/wipestats` - Wipes the database of all information (System-Admin+ default)
 - `/wipehistory` - Brings up the audit log of the most recent DB wipes
 
 **User Permission commands:**
