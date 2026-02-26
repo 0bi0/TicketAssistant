@@ -44,7 +44,7 @@ tree.add_command(privilegedusers)
 
 
 # Your bot token
-TOKEN = "MTQ2NTA2NzE3MzQyMzg3NDA0OA.GH_xS-.Tn2PJW876nXuedoYMHt7AGeCVObHmgfb94pvB4"
+TOKEN = "your_token_goes_here"
 
 # TicketsV2 UserID
 TICKETS_BOT_ID = 1325579039888511056
