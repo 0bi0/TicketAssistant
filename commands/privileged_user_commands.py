@@ -107,9 +107,9 @@ async def privilegedusers(interaction: discord.Interaction):
         member = interaction.guild.get_member(user_id)
 
         if member:
-            lines.append(f"・{member.mention} — `{user_id}`")
+            lines.append(f"•ㅤ{member.mention} — `{user_id}`")
         else:
-            lines.append(f"・<@{user_id}> — `{user_id}` (Not in Server)")
+            lines.append(f"•ㅤ<@{user_id}> — `{user_id}` (Not in Server)")
 
     embed = discord.Embed(
         title="👑 Privileged Users (Max Permissions)",

@@ -21,6 +21,7 @@ from commands.miscellaneous_commands import help, viewpermissions
 from commands.privileged_user_commands import maxpermsadd, maxpermsremove, privilegedusers
 
 
+
 # Enables necessary Discord intents
 intents = discord.Intents.default()
 intents.message_content = True
@@ -43,7 +44,7 @@ tree.add_command(privilegedusers)
 
 
 # Your bot token
-TOKEN = "your_token_goes_here"
+TOKEN = "MTQ2NTA2NzE3MzQyMzg3NDA0OA.GH_xS-.Tn2PJW876nXuedoYMHt7AGeCVObHmgfb94pvB4"
 
 # TicketsV2 UserID
 TICKETS_BOT_ID = 1325579039888511056
@@ -62,6 +63,7 @@ async def on_ready():
         if filename.endswith(".py") and not filename.startswith("__"):
             module_name = f"commands.{filename[:-3]}"
             importlib.import_module(module_name)
+            # Connects to DataBase
             client.db = await aiosqlite.connect("tickets.db")
 
     # Base table
