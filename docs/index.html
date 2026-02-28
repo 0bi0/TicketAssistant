@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Ticket Assistant | Documentation</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Official documentation for Ticket Assistant — a modular Discord ticket management system built with Python.">
+
+<script src="https://unpkg.com/lucide@latest"></script>
+
+<style>
+
+/* 
+   Dark theme
+ */
+
+:root {
+    --bg: #0b0b0d;
+    --bg-soft: #121214;
+    --card: rgba(255,255,255,0.03);
+    --border: rgba(255,255,255,0.08);
+    --text: #f3f4f6;
+    --muted: #9ca3af;
+    --accent: #d1d5db;
+}
+
+* {
+    box-sizing: border-box;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+body {
+    margin: 0;
+    color: var(--text);
+    background:
+        radial-gradient(circle at 20% 20%, rgba(255,255,255,0.04), transparent 40%),
+        radial-gradient(circle at 80% 80%, rgba(255,255,255,0.03), transparent 50%),
+        linear-gradient(to bottom, #0a0a0c, #0e0e11);
+    overflow-x: hidden;
+}
+
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background-image:
+        linear-gradient(var(--border) 1px, transparent 1px),
+        linear-gradient(90deg, var(--border) 1px, transparent 1px);
+    background-size: 60px 60px;
+    mask-image: radial-gradient(circle at center, black, transparent 75%);
+    opacity: 0.2;
+    z-index: -1;
+}
+
+.container {
+    max-width: 1100px;
+    margin: auto;
+    padding: 100px 24px;
+}
+
+h1 {
+    font-size: 2.8rem;
+    margin-bottom: 16px;
+    letter-spacing: -0.03em;
+}
+
+h2 {
+    font-size: 1.9rem;
+    margin-bottom: 30px;
+    letter-spacing: -0.02em;
+}
+
+p {
+    color: var(--muted);
+    line-height: 1.7;
+}
+
+/* HEADER */
+
+.header {
+    margin-bottom: 120px;
+}
+
+.header p {
+    max-width: 760px;
+    font-size: 1.05rem;
+}
+
+.repo-links {
+    margin-top: 30px;
+    display: flex;
+    gap: 16px;
+}
+
+.button {
+    padding: 12px 22px;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+    text-decoration: none;
+    color: var(--text);
+    font-size: 0.9rem;
+    transition: 0.25s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.button:hover {
+    border-color: white;
+    transform: translateY(-2px);
+}
+
+/* SECTIONS */
+
+.section {
+    margin-bottom: 120px;
+}
+
+/* CARDS */
+
+.grid {
+    display: grid;
+    gap: 30px;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+}
+
+.card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 40px;
+    backdrop-filter: blur(14px);
+    transition: 0.3s ease;
+}
+
+.card:hover {
+    border-color: rgba(255,255,255,0.2);
+}
+
+.card i {
+    width: 28px;
+    height: 28px;
+    margin-bottom: 18px;
+    color: var(--accent);
+}
+
+.card p {
+    font-size: 0.95rem;
+}
+
+/* TERMINAL */
+
+.terminal {
+    background: linear-gradient(145deg, #0a0a0a, #111111);
+    border: 1px solid #1f1f1f;
+    border-radius: 14px;
+    overflow: hidden;
+    margin-top: 40px;
+    box-shadow:
+        0 0 30px rgba(255,255,255,0.02),
+        0 0 60px rgba(255,255,255,0.01);
+}
+
+.terminal-header {
+    background: #0d0d0d;
+    padding: 0.8rem 1rem;
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid #1a1a1a;
+}
+
+.terminal-title {
+    margin-left: 1rem;
+    font-size: 0.85rem;
+    color: #888;
+    font-family: monospace;
+}
+
+.dot {
+    height: 12px;
+    width: 12px;
+    border-radius: 50%;
+    margin-right: 6px;
+}
+
+.red { background: #ff5f56; }
+.yellow { background: #ffbd2e; }
+.green { background: #27c93f; }
+
+.terminal-body {
+    padding: 1.5rem;
+    background: radial-gradient(circle at top left, #0e0e0e, #090909);
+}
+
+.terminal pre {
+    margin: 0;
+    font-family: "Fira Code", monospace;
+    font-size: 0.9rem;
+    color: #c9d1d9;
+    line-height: 1.6;
+}
+
+footer {
+    text-align: center;
+    padding: 60px 0;
+    border-top: 1px solid var(--border);
+    color: var(--muted);
+    font-size: 0.9rem;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="header">
+    <h1>Ticket Assistant</h1>
+    <p>
+        Ticket Assistant is a production-ready Discord ticket management bot designed
+        for structured support systems, moderation workflows, and scalable server environments.
+        Built with Python and discord.py, it provides a robust and maintainable infrastructure
+        for managing user support channels within Discord communities.
+    </p>
+
+    <div class="repo-links">
+        <a href="https://github.com/0bi0/TicketAssistant" target="_blank" class="button">
+            <i data-lucide="github"></i> Repository
+        </a>
+        <a href="https://github.com/0bi0/TicketAssistant/issues" target="_blank" class="button">
+            <i data-lucide="alert-circle"></i> Issue Tracker
+        </a>
+    </div>
+</div>
+
+<!-- ABOUT SECTION -->
+
+<div class="section">
+    <h2>About Ticket Assistant</h2>
+    <p>
+        Ticket Assistant provides a structured and automated approach to handling support
+        requests within Discord servers. It replaces ad-hoc support channels with
+        dynamically generated ticket channels that enforce role-based permissions
+        and consistent lifecycle management.
+    </p>
+    <p>
+        The project focuses on maintainability, modular architecture, and long-term scalability.
+        It is suitable for community servers, SaaS projects, game servers, and any
+        organization requiring organized support workflows.
+    </p>
+</div>
+
+<!-- CORE CAPABILITIES -->
+
+<div class="section">
+    <h2>Core Capabilities</h2>
+
+    <div class="grid">
+        <div class="card">
+            <i data-lucide="shield"></i>
+            <h3>Permission Architecture</h3>
+            <p>
+                Structured role-based access control ensures secure ticket handling.
+                Channel permissions are dynamically generated to prevent unauthorized access.
+            </p>
+        </div>
+
+        <div class="card">
+            <i data-lucide="layers"></i>
+            <h3>Automated Channel Lifecycle</h3>
+            <p>
+                Ticket creation, categorization, and closure follow controlled workflows
+                with consistent naming and organizational standards.
+            </p>
+        </div>
+
+        <div class="card">
+            <i data-lucide="settings"></i>
+            <h3>Modular Configuration System</h3>
+            <p>
+                JSON-driven configuration allows structured customization of categories,
+                roles, logging behaviour, and feature toggles without modifying core logic.
+            </p>
+        </div>
+    </div>
+</div>
+
+<!-- DEPLOYMENT -->
+
+<div class="section">
+    <h2>Deployment</h2>
+
+    <p>
+        Recommended deployment uses a virtual environment and structured configuration.
+        Suitable for VPS, dedicated servers, or containerized environments.
+    </p>
+
+    <div class="terminal">
+        <div class="terminal-header">
+            <span class="dot red"></span>
+            <span class="dot yellow"></span>
+            <span class="dot green"></span>
+            <span class="terminal-title">root@server:~/TicketAssistant</span>
+        </div>
+        <div class="terminal-body">
+<pre># Clone repository
+git clone https://github.com/0bi0/TicketAssistant.git
+cd TicketAssistant
+
+# Create virtual environment
+python3 -m venv venv
+source venv/bin/activate
+
+# Install dependencies
+pip install -r requirements.txt
+
+# Configure environment
+cp config.example.json config.json
+
+# Start application
+python -m main.main</pre>
+        </div>
+    </div>
+</div>
+
+<div class="section">
+    <h2>Architecture Overview</h2>
+    <p>
+        The system follows a modular architecture separating configuration management,
+        command registration, event listeners, and ticket logic into structured components.
+        This separation ensures maintainability, testability, and future scalability.
+    </p>
+</div>
+
+<footer>
+    © 2026 0bi0 — Ticket Assistant
+</footer>
+
+</div>
+
+<script>
+lucide.createIcons();
+</script>
+
+</body>
+</html>
+
+
+<!-- chatgpt comments cause I cba coming up with smth on my own-->

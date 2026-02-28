@@ -1,4 +1,3 @@
-.env
 tickets.db
 cogs/__pycache__
 commands/__pycache__
