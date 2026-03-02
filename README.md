@@ -34,9 +34,9 @@ To run the bot, you must create your own Discord application:
 - Discord Developer Portal: https://discord.com/developers/applications
 
 **After creating your bot:**
-- Enable Privileged Gateway Intents (if required).
-- Invite the bot to your server with proper permissions.
-- Configure the required environment variables.
+- Enable Privileged Gateway Intents
+- Invite the bot to your server with proper permissions
+- Configure the required environment variables
 
 
 ---
@@ -79,6 +79,6 @@ In `permissions.py`, in your project root, configure the following:
 
 ## Purpose
 
-The Ticket Assistant is designed to increase transparency, accountability, and efficiency within structured support environments. 
+The Ticket Assistant is designed to increase transparency, accountability, and efficiency within Discord servers. 
 
 By providing automated tracking and statistical insight, it ensures that no ticket is overlooked and that management remains fully informed at all times.
