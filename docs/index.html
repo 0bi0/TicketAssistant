@@ -5,38 +5,43 @@
 <title>Ticket Assistant | Documentation</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="description" content="Official documentation for Ticket Assistant — a modular Discord ticket management system built with Python.">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
 
+<!-- Scripts used-->
 <script src="https://unpkg.com/lucide@latest"></script>
 <script async src="https://sleepie.uk/oneko.js"></script>
 
 <style>
 
-/* 
-   Dark theme
- */
+
+
+/*  ---------------- CSS SECTION OF THE CODE ----------------  */
+
+/* Theme (not gonna include light mode cause fuck light mode bth) */
 
 :root {
-    --bg: #0b0b0d;
-    --bg-soft: #121214;
-    --card: rgba(255,255,255,0.03);
-    --border: rgba(255,255,255,0.08);
-    --text: #f3f4f6;
-    --muted: #9ca3af;
-    --accent: #d1d5db;
+    --bg: #0c0c0c;
+    --bg-soft: #2c2c2c;
+    --card: rgba(255,255,255,0.04);
+    --border: rgba(74,74,74,0.65);
+    --text: #f8eff7;
+    --muted: #c9aac5;
+    --accent: #bea98e;
+    --accent-2: #4a4a4a;
 }
 
 * {
     box-sizing: border-box;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    font-family: "JetBrains Mono", Consolas, monospace;
 }
 
 body {
     margin: 0;
     color: var(--text);
     background:
-        radial-gradient(circle at 20% 20%, rgba(255,255,255,0.04), transparent 40%),
-        radial-gradient(circle at 80% 80%, rgba(255,255,255,0.03), transparent 50%),
-        linear-gradient(to bottom, #0a0a0c, #0e0e11);
+        radial-gradient(circle at 20% 8%, rgba(190,169,142,0.12), transparent 45%),
+        radial-gradient(circle at 80% 82%, rgba(74,74,74,0.2), transparent 45%),
+        linear-gradient(to bottom, #0c0c0c, #161616 55%, #121212);
     overflow-x: hidden;
 }
 
@@ -49,14 +54,45 @@ body::before {
         linear-gradient(90deg, var(--border) 1px, transparent 1px);
     background-size: 60px 60px;
     mask-image: radial-gradient(circle at center, black, transparent 75%);
-    opacity: 0.2;
+    opacity: 0.16;
     z-index: -1;
+}
+
+body::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    background: radial-gradient(circle at center, transparent 62%, rgba(0,0,0,0.55));
 }
 
 .container {
     max-width: 1100px;
     margin: auto;
-    padding: 100px 24px;
+    padding: 56px 24px 100px;
+}
+
+.top-nav {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 30px;
+    flex-wrap: wrap;
+}
+
+.top-nav a {
+    text-decoration: none;
+    color: var(--text);
+    border: 1px solid var(--border);
+    background: rgba(255,255,255,0.02);
+    padding: 8px 12px;
+    border-radius: 999px;
+    font-size: 0.8rem;
+    transition: 0.2s ease;
+}
+
+.top-nav a:hover {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 1px rgba(190,169,142,0.24), 0 0 18px rgba(190,169,142,0.2);
 }
 
 h1 {
@@ -67,12 +103,14 @@ h1 {
 
 .ascii-headline {
     font-family: "Fira Code", Consolas, monospace;
-    font-size: clamp(0.38rem, 0.95vw, 0.62rem);
+    font-size: clamp(0.36rem, 0.72vw, 0.56rem);
     line-height: 1;
     letter-spacing: 0;
     white-space: pre;
     overflow: hidden;
     margin-bottom: 22px;
+    color: #eee6dc;
+    text-shadow: 0 0 10px rgba(190,169,142,0.24);
 }
 
 h2 {
@@ -86,15 +124,50 @@ p {
     line-height: 1.7;
 }
 
-/* HEADER */
+
+
+/* Header */
 
 .header {
     margin-bottom: 120px;
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 22px;
+    background: linear-gradient(155deg, rgba(22,22,22,0.92), rgba(12,12,12,0.92));
+    box-shadow: 0 0 0 1px rgba(255,255,255,0.03), 0 20px 50px rgba(0,0,0,0.35);
 }
 
 .header p {
     max-width: 760px;
-    font-size: 1.05rem;
+    font-size: 0.95rem;
+}
+
+.hero-meta {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 14px;
+    flex-wrap: wrap;
+}
+
+.status-pill {
+    border: 1px solid var(--border);
+    background: rgba(255,255,255,0.03);
+    color: var(--muted);
+    font-size: 0.78rem;
+    border-radius: 999px;
+    padding: 6px 10px;
+}
+
+.type-line {
+    color: var(--accent);
+    font-size: 0.85rem;
+    margin-top: 0;
+}
+
+.cursor {
+    display: inline-block;
+    margin-left: 4px;
+    animation: blink 1s steps(1) infinite;
 }
 
 .repo-links {
@@ -105,23 +178,27 @@ p {
 
 .button {
     padding: 12px 22px;
-    border-radius: 10px;
+    border-radius: 999px;
     border: 1px solid var(--border);
     text-decoration: none;
     color: var(--text);
-    font-size: 0.9rem;
+    font-size: 0.82rem;
     transition: 0.25s ease;
     display: inline-flex;
     align-items: center;
     gap: 8px;
+    background: rgba(255,255,255,0.02);
 }
 
 .button:hover {
-    border-color: white;
+    border-color: var(--accent);
+    box-shadow: 0 0 0 1px rgba(190,169,142,0.25), 0 0 18px rgba(190,169,142,0.22);
     transform: translateY(-2px);
 }
 
-/* CONTACT BOXES */
+
+
+/* Contact boxes */
 
 .contact-grid {
     display: grid;
@@ -132,20 +209,21 @@ p {
 
 .contact-card {
     border: 1px solid var(--border);
-    border-radius: 10px;
+    border-radius: 999px;
     padding: 12px 14px;
     background: rgba(255,255,255,0.02);
     text-decoration: none;
     color: var(--text);
-    font-size: 0.95rem;
+    font-size: 0.86rem;
     display: inline-flex;
     align-items: center;
     gap: 9px;
-    transition: 0.2s ease;
+    transition: 0.25s ease;
 }
 
 .contact-card:hover {
-    border-color: rgba(255,255,255,0.24);
+    border-color: var(--accent-2);
+    box-shadow: 0 0 0 1px rgba(74,74,74,0.4), 0 0 16px rgba(190,169,142,0.14);
     transform: translateY(-1px);
 }
 
@@ -155,13 +233,35 @@ p {
     color: var(--muted);
 }
 
-/* SECTIONS */
+
+
+/* Sections */
 
 .section {
     margin-bottom: 120px;
 }
 
-/* CARDS */
+.section h2 {
+    font-size: 1.2rem;
+    letter-spacing: 0;
+    margin-bottom: 18px;
+    text-transform: none;  /* makes text lowercase (lowercase is goated) */
+    color: #d8c6ae;
+}
+
+.currently-strip {
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 12px 14px;
+    margin-top: 20px;
+    color: var(--muted);
+    background: rgba(255,255,255,0.02);
+    font-size: 0.83rem;
+}
+
+
+
+/* General cards */
 
 .grid {
     display: grid;
@@ -173,7 +273,7 @@ p {
     background: var(--card);
     border: 1px solid var(--border);
     border-radius: 16px;
-    padding: 40px;
+    padding: 24px;
     backdrop-filter: blur(14px);
     transition: 0.3s ease;
 }
@@ -186,24 +286,26 @@ p {
     width: 28px;
     height: 28px;
     margin-bottom: 18px;
-    color: var(--accent);
+    color: var(--accent-2);
 }
 
 .card p {
     font-size: 0.95rem;
 }
 
-/* TERMINAL */
+
+
+/* Terminal */
 
 .terminal {
-    background: linear-gradient(145deg, #0a0a0a, #111111);
-    border: 1px solid #1f1f1f;
+    background: linear-gradient(145deg, #0f0f0f, #181818);
+    border: 1px solid rgba(255,255,255,0.12);
     border-radius: 14px;
     overflow: hidden;
     margin-top: 40px;
     box-shadow:
-        0 0 30px rgba(255,255,255,0.02),
-        0 0 60px rgba(255,255,255,0.01);
+        0 0 30px rgba(74,74,74,0.2),
+        0 0 60px rgba(190,169,142,0.12);
 }
 
 .terminal-header {
@@ -253,61 +355,82 @@ footer {
     font-size: 0.9rem;
 }
 
+.cat-toggle {
+    position: fixed;
+    right: 16px;
+    bottom: 16px;
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    background: rgba(10,8,16,0.95);
+    color: var(--text);
+    font-size: 0.76rem;
+    padding: 8px 12px;
+    cursor: pointer;
+    z-index: 20;
+}
+
+.cat-toggle:hover {
+    border-color: var(--accent);
+}
+
+@keyframes blink {
+    0%, 50% { opacity: 1; }
+    50.01%, 100% { opacity: 0; }
+}
+
+@media (max-width: 760px) {
+    .container {
+        padding-top: 28px;
+    }
+
+    .ascii-headline {
+        font-size: 0.27rem;
+        line-height: 0.96;
+    }
+}
+
 </style>
 </head>
 
 <body>
 
+
+
+<!--  ---------------- HTML SECTION OF THE CODE ----------------  -->
+
+<!-- Sets class and id for the cat, so it can be toggled with the button and styled -->
 <div class="container">
 
+<nav class="top-nav">
+    <a href="#about">about</a>
+    <a href="#core">capabilities</a>
+    <a href="#deploy">deployment</a>
+    <a href="#socials">socials</a>
+</nav>
+
 <div class="header">
+        <div class="hero-meta">
+            <span class="status-pill">automation</span>
+            <span class="status-pill">tracking</span>
+        </div>
         <h1 class="ascii-headline" aria-label="Ticket Assistant">
-                                                                                                                                                                                                                                                                                              
-                                                                                                                                                                                                                                                                                              
-TTTTTTTTTTTTTTTTTTTTTTT  iiii                      kkkkkkkk                                     tttt                                             bbbbbbbb                                      
-T:::::::::::::::::::::T i::::i                     k::::::k                                  ttt:::t                                000000000    b::::::b               iiii       000000000     
-T:::::::::::::::::::::T  iiii                      k::::::k                                  t:::::t                              00:::::::::00  b::::::b              i::::i    00:::::::::00   
-T:::::TT:::::::TT:::::T                            k::::::k                                  t:::::t                            00:::::::::::::00b::::::b               iiii   00:::::::::::::00 
-TTTTTT  T:::::T  TTTTTTiiiiiii     cccccccccccccccc k:::::k    kkkkkkk eeeeeeeeeeee    ttttttt:::::ttttttt                      0:::::::000:::::::0b:::::b                    0:::::::000:::::::0
-        T:::::T        i:::::i   cc:::::::::::::::c k:::::k   k:::::kee::::::::::::ee  t:::::::::::::::::t                      0::::::0   0::::::0b:::::bbbbbbbbb    iiiiiii 0::::::0   0::::::0
-        T:::::T         i::::i  c:::::::::::::::::c k:::::k  k:::::ke::::::eeeee:::::eet:::::::::::::::::t                      0:::::0     0:::::0b::::::::::::::bb  i:::::i 0:::::0     0:::::0
-        T:::::T         i::::i c:::::::cccccc:::::c k:::::k k:::::ke::::::e     e:::::etttttt:::::::tttttt       |=========|    0:::::0     0:::::0b::::::::::::::::b  i::::i 0:::::0     0:::::0
-        T:::::T         i::::i c::::::c     ccccccc k::::::k:::::k e:::::::eeeee::::::e      t:::::t             |         |    0:::::0 000 0:::::0b:::::bbbbb:::::::b i::::i 0:::::0 000 0:::::0
-        T:::::T         i::::i c:::::c              k:::::::::::k  e:::::::::::::::::e       t:::::t             |=========|    0:::::0 000 0:::::0b:::::b    b::::::b i::::i 0:::::0 000 0:::::0
-        T:::::T         i::::i c:::::c              k:::::::::::k  e::::::eeeeeeeeeee        t:::::t                            0:::::0     0:::::0b:::::b     b:::::b i::::i 0:::::0     0:::::0
-        T:::::T         i::::i c::::::c     ccccccc k::::::k:::::k e:::::::e                 t:::::t    tttttt                  0:::::0     0:::::0b:::::b     b:::::b i::::i 0:::::0     0:::::0
-      TT:::::::TT      i::::::ic:::::::cccccc:::::ck::::::k k:::::ke::::::::e                t::::::tttt:::::t                  0::::::0   0::::::0b:::::b     b:::::b i::::i 0::::::0   0::::::0
-      T:::::::::T      i::::::i c:::::::::::::::::ck::::::k  k:::::ke::::::::eeeeeeee        tt::::::::::::::t                  0:::::::000:::::::0b:::::bbbbbb::::::bi::::::i0:::::::000:::::::0
-      T:::::::::T      i::::::i  cc:::::::::::::::ck::::::k   k:::::kee:::::::::::::e          tt:::::::::::tt                  00:::::::::::::00 b::::::::::::::::b  i::::::i 00:::::::::::::00  
-      TTTTTTTTTTT      iiiiiiii    cccccccccccccccckkkkkkkk    kkkkkkk eeeeeeeeeeeeee            ttttttttttt                      00:::::::::00   b:::::::::::::::b   i::::::i   00:::::::::00    
-                                                                                                                                    000000000     bbbbbbbbbbbbbbbb    iiiiiiii     000000000      
-  
-      
-               AAA                                                 iiii                            tttt                                                      tttt          
-              A:::A                                               i::::i                        ttt:::t                                                   ttt:::t          
-             A:::::A                                               iiii                         t:::::t                                                   t:::::t          
-            A:::::::A                                                                           t:::::t                                                   t:::::t          
-           A:::::::::A             ssssssssss       ssssssssss   iiiiiii     ssssssssss   ttttttt:::::ttttttt      aaaaaaaaaaaaa  nnnn  nnnnnnnn    ttttttt:::::ttttttt    
-          A:::::A:::::A          ss::::::::::s    ss::::::::::s  i:::::i   ss::::::::::s  t:::::::::::::::::t      a::::::::::::a n:::nn::::::::nn  t:::::::::::::::::t    
-         A:::::A A:::::A       ss:::::::::::::s ss:::::::::::::s  i::::i ss:::::::::::::s t:::::::::::::::::t      aaaaaaaaa:::::an::::::::::::::nn t:::::::::::::::::t    
-        A:::::A   A:::::A      s::::::ssss:::::ss::::::ssss:::::s i::::i s::::::ssss:::::stttttt:::::::tttttt               a::::ann:::::::::::::::ntttttt:::::::tttttt    
-       A:::::A     A:::::A      s:::::s  ssssss  s:::::s  ssssss  i::::i  s:::::s  ssssss       t:::::t              aaaaaaa:::::a  n:::::nnnn:::::n      t:::::t          
-      A:::::AAAAAAAAA:::::A       s::::::s         s::::::s       i::::i    s::::::s            t:::::t            aa::::::::::::a  n::::n    n::::n      t:::::t          
-     A:::::::::::::::::::::A         s::::::s         s::::::s    i::::i       s::::::s         t:::::t           a::::aaaa::::::a  n::::n    n::::n      t:::::t          
-    A:::::AAAAAAAAAAAAA:::::A  ssssss   s:::::s ssssss   s:::::s  i::::i ssssss   s:::::s       t:::::t    tttttta::::a    a:::::a  n::::n    n::::n      t:::::t    tttttt
-   A:::::A             A:::::A s:::::ssss::::::ss:::::ssss::::::si::::::is:::::ssss::::::s      t::::::tttt:::::ta::::a    a:::::a  n::::n    n::::n      t::::::tttt:::::t
-  A:::::A               A:::::As::::::::::::::s s::::::::::::::s i::::::is::::::::::::::s       tt::::::::::::::ta:::::aaaa::::::a  n::::n    n::::n      tt::::::::::::::t
- A:::::A                 A:::::As:::::::::::ss   s:::::::::::ss  i::::::i s:::::::::::ss          tt:::::::::::tt a::::::::::aa:::a n::::n    n::::n        tt:::::::::::tt
-AAAAAAA                   AAAAAAAsssssssssss      sssssssssss    iiiiiiii  sssssssssss              ttttttttttt    aaaaaaaaaa  aaaa nnnnnn    nnnnnn          ttttttttttt  
-                                                                                                                                                                                                                                                                                              
-                                                                                                                                                                                                                                                                                              
-                                                                                                                                                                                                                                                                                              
-                                                                                                                                                                                                                                                                                              
-                                                                                                                                                                                                                                                                                              
-                                                                                                                                                                                                                                                                                              
-                                                                                                                                                                                                                                                                                              </h1>
+
+<!-- cool ascii art ^_^ -->
+ _____ _      _        _   
+|_   _(_) ___| | _____| |_ 
+  | | | |/ __| |/ / _ \ __|
+  | | | | (__|   <  __/ |_ 
+  |_| |_|\___|_|\_\___|\__|
+
+    _            _     _              _             _               ___  _     _  ___  
+   / \   ___ ___(_)___| |_ __ _ _ __ | |_     |    | |__  _   _    / _ \| |__ (_)/ _ \ 
+  / _ \ / __/ __| / __| __/ _` | '_ \| __|    |    | '_ \| | | |  | | | | '_ \| | | | |
+ / ___ \\__ \__ \ \__ \ || (_| | | | | |_     |    | |_) | |_| |  | |_| | |_) | | |_| |
+/_/   \_\___/___/_|___/\__\__,_|_| |_|\__|    |    |_.__/ \__, |   \___/|_.__/|_|\___/ 
+                                                          |___/                       </h1>
+    <p class="type-line">&gt; <span id="typed-line"></span><span class="cursor">_</span></p>
     <p>
-        Ticket Assistant is a Discord ticket management bot designed
+        The Ticket Assistant is a Discord ticket management bot designed
         for structured support systems, moderation workflows, and scalable server environments.
         Built with Python and discord.py, it provides a robust and maintainable infrastructure
         for managing user support channels within Discord communities.
@@ -323,26 +446,33 @@ AAAAAAA                   AAAAAAAsssssssssss      sssssssssss    iiiiiiii  sssss
     </div>
 </div>
 
-<!-- ABOUT SECTION -->
 
-<div class="section">
+
+<!-- About -->
+
+<div class="section" id="about">
     <h2>About Ticket Assistant</h2>
     <p>
-        Ticket Assistant provides a structured and automated approach to handling support
-        requests within Discord servers. It replaces ad-hoc support channels with
-        dynamically generated ticket channels that enforce role-based permissions
-        and consistent lifecycle management.
+        The Ticket Assistant is a Discord bot designed to provide a structured and automated
+        approach to handle ticket management without building up clutter. It checks for user
+        permissions, integrates seamlessly with Discord's systemical organisation, and provides
+        consistent tracking of tickets within its DataBase.
     </p>
     <p>
         The project focuses on maintainability, modular architecture, and long-term scalability.
-        It is suitable for community servers, SaaS projects, game servers, and any
-        organization requiring organized support workflows.
+        It is suitable for community servers of all sorts, especially those looking to implement
+        a more organized support system without relying on external ticketing platforms.
     </p>
+    <div class="currently-strip">
+        Currently: polishing tracking flows, refining role permissions, and shipping prettier docs.
+    </div>
 </div>
 
-<!-- CORE CAPABILITIES -->
 
-<div class="section">
+
+<!-- Core Capabilities (cause bot good, hmmm...) -->
+
+<div class="section" id="core">
     <h2>Core Capabilities</h2>
 
     <div class="grid">
@@ -357,27 +487,29 @@ AAAAAAA                   AAAAAAAsssssssssss      sssssssssss    iiiiiiii  sssss
 
         <div class="card">
             <i data-lucide="layers"></i>
-            <h3>Automated Channel Lifecycle</h3>
+            <h3>Automated Lifecycles</h3>
             <p>
-                Ticket creation, categorization, and closure follow controlled workflows
-                with consistent naming and organizational standards.
+                Ticket categorization, tracking, and closure follow controlled workflows
+                with consistent logging and organizational standards.
             </p>
         </div>
 
         <div class="card">
             <i data-lucide="settings"></i>
-            <h3>Modular Configuration System</h3>
+            <h3>Modular Configuration</h3>
             <p>
-                JSON-driven configuration allows structured customization of categories,
+                Customizable configuration allows structured customization of categories,
                 roles, logging behaviour, and feature toggles without modifying core logic.
             </p>
         </div>
     </div>
 </div>
 
-<!-- DEPLOYMENT -->
 
-<div class="section">
+
+<!-- Deployment :] -->
+
+<div class="section" id="deploy">
     <h2>Deployment</h2>
 
     <p>
@@ -410,7 +542,7 @@ python -m main.main</pre>
     </div>
 </div>
 
-<div class="section">
+<div class="section" id="socials">
     <h2>Socials</h2>
     <div class="contact-grid">
         <a class="contact-card" href="mailto:0bi0prof@gmai.com">
@@ -429,17 +561,62 @@ python -m main.main</pre>
 </div>
 
 <footer>
-    © 2026 0bi0 — Ticket Assistant
+    © 2026 0bi0 — Ticket Assistant • <span id="footer-status">status: online and building</span>
 </footer>
 
 </div>
 
+<button class="cat-toggle" id="cat-toggle">Oneko: on</button>
+
 <script>
 lucide.createIcons();
+
+const typedTarget = "~$ main/ticket_tracking/and_database_integration";
+const typedEl = document.getElementById("typed-line");
+let typedIndex = 0;
+
+function typeIntro() {
+    if (!typedEl || typedIndex > typedTarget.length) {
+        return;
+    }
+    typedEl.textContent = typedTarget.slice(0, typedIndex);
+    typedIndex += 1;
+    setTimeout(typeIntro, 40);
+}
+
+typeIntro();
+
+const statuses = [
+    "status: online and building",
+    "status: tracking issues, softly",
+    "status: commits soon",
+    "status: cat approved"
+];
+
+const footerStatus = document.getElementById("footer-status");
+let statusIndex = 0;
+
+setInterval(() => {
+    if (!footerStatus) return;
+    statusIndex = (statusIndex + 1) % statuses.length;
+    footerStatus.textContent = statuses[statusIndex];
+}, 3000);
+
+const catToggle = document.getElementById("cat-toggle");
+let catVisible = true;
+
+catToggle?.addEventListener("click", () => {
+    catVisible = !catVisible;
+    const oneko = document.getElementById("oneko");
+    if (oneko) {
+        oneko.style.display = catVisible ? "block" : "none";
+    }
+    catToggle.textContent = catVisible ? "Oneko: on" : "Oneko: off";
+});
 </script>
 
 </body>
 </html>
 
 
-<!-- meow :3 -->>
+<!-- meow :3 -->
