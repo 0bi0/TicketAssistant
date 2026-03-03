@@ -7,6 +7,7 @@
 <meta name="description" content="Official documentation for Ticket Assistant — a modular Discord ticket management system built with Python.">
 
 <script src="https://unpkg.com/lucide@latest"></script>
+<script async src="https://sleepie.uk/oneko.js"></script>
 
 <style>
 
@@ -64,6 +65,16 @@ h1 {
     letter-spacing: -0.03em;
 }
 
+.ascii-headline {
+    font-family: "Fira Code", Consolas, monospace;
+    font-size: clamp(0.38rem, 0.95vw, 0.62rem);
+    line-height: 1;
+    letter-spacing: 0;
+    white-space: pre;
+    overflow: hidden;
+    margin-bottom: 22px;
+}
+
 h2 {
     font-size: 1.9rem;
     margin-bottom: 30px;
@@ -108,6 +119,40 @@ p {
 .button:hover {
     border-color: white;
     transform: translateY(-2px);
+}
+
+/* CONTACT BOXES */
+
+.contact-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 14px;
+    margin-top: 24px;
+}
+
+.contact-card {
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 12px 14px;
+    background: rgba(255,255,255,0.02);
+    text-decoration: none;
+    color: var(--text);
+    font-size: 0.95rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    transition: 0.2s ease;
+}
+
+.contact-card:hover {
+    border-color: rgba(255,255,255,0.24);
+    transform: translateY(-1px);
+}
+
+.contact-card i {
+    width: 18px;
+    height: 18px;
+    color: var(--muted);
 }
 
 /* SECTIONS */
@@ -216,9 +261,53 @@ footer {
 <div class="container">
 
 <div class="header">
-    <h1>Ticket Assistant</h1>
+        <h1 class="ascii-headline" aria-label="Ticket Assistant">
+                                                                                                                                                                                                                                                                                              
+                                                                                                                                                                                                                                                                                              
+TTTTTTTTTTTTTTTTTTTTTTT  iiii                      kkkkkkkk                                     tttt                                             bbbbbbbb                                      
+T:::::::::::::::::::::T i::::i                     k::::::k                                  ttt:::t                                000000000    b::::::b               iiii       000000000     
+T:::::::::::::::::::::T  iiii                      k::::::k                                  t:::::t                              00:::::::::00  b::::::b              i::::i    00:::::::::00   
+T:::::TT:::::::TT:::::T                            k::::::k                                  t:::::t                            00:::::::::::::00b::::::b               iiii   00:::::::::::::00 
+TTTTTT  T:::::T  TTTTTTiiiiiii     cccccccccccccccc k:::::k    kkkkkkk eeeeeeeeeeee    ttttttt:::::ttttttt                      0:::::::000:::::::0b:::::b                    0:::::::000:::::::0
+        T:::::T        i:::::i   cc:::::::::::::::c k:::::k   k:::::kee::::::::::::ee  t:::::::::::::::::t                      0::::::0   0::::::0b:::::bbbbbbbbb    iiiiiii 0::::::0   0::::::0
+        T:::::T         i::::i  c:::::::::::::::::c k:::::k  k:::::ke::::::eeeee:::::eet:::::::::::::::::t                      0:::::0     0:::::0b::::::::::::::bb  i:::::i 0:::::0     0:::::0
+        T:::::T         i::::i c:::::::cccccc:::::c k:::::k k:::::ke::::::e     e:::::etttttt:::::::tttttt       |=========|    0:::::0     0:::::0b::::::::::::::::b  i::::i 0:::::0     0:::::0
+        T:::::T         i::::i c::::::c     ccccccc k::::::k:::::k e:::::::eeeee::::::e      t:::::t             |         |    0:::::0 000 0:::::0b:::::bbbbb:::::::b i::::i 0:::::0 000 0:::::0
+        T:::::T         i::::i c:::::c              k:::::::::::k  e:::::::::::::::::e       t:::::t             |=========|    0:::::0 000 0:::::0b:::::b    b::::::b i::::i 0:::::0 000 0:::::0
+        T:::::T         i::::i c:::::c              k:::::::::::k  e::::::eeeeeeeeeee        t:::::t                            0:::::0     0:::::0b:::::b     b:::::b i::::i 0:::::0     0:::::0
+        T:::::T         i::::i c::::::c     ccccccc k::::::k:::::k e:::::::e                 t:::::t    tttttt                  0:::::0     0:::::0b:::::b     b:::::b i::::i 0:::::0     0:::::0
+      TT:::::::TT      i::::::ic:::::::cccccc:::::ck::::::k k:::::ke::::::::e                t::::::tttt:::::t                  0::::::0   0::::::0b:::::b     b:::::b i::::i 0::::::0   0::::::0
+      T:::::::::T      i::::::i c:::::::::::::::::ck::::::k  k:::::ke::::::::eeeeeeee        tt::::::::::::::t                  0:::::::000:::::::0b:::::bbbbbb::::::bi::::::i0:::::::000:::::::0
+      T:::::::::T      i::::::i  cc:::::::::::::::ck::::::k   k:::::kee:::::::::::::e          tt:::::::::::tt                  00:::::::::::::00 b::::::::::::::::b  i::::::i 00:::::::::::::00  
+      TTTTTTTTTTT      iiiiiiii    cccccccccccccccckkkkkkkk    kkkkkkk eeeeeeeeeeeeee            ttttttttttt                      00:::::::::00   b:::::::::::::::b   i::::::i   00:::::::::00    
+                                                                                                                                    000000000     bbbbbbbbbbbbbbbb    iiiiiiii     000000000      
+  
+      
+               AAA                                                 iiii                            tttt                                                      tttt          
+              A:::A                                               i::::i                        ttt:::t                                                   ttt:::t          
+             A:::::A                                               iiii                         t:::::t                                                   t:::::t          
+            A:::::::A                                                                           t:::::t                                                   t:::::t          
+           A:::::::::A             ssssssssss       ssssssssss   iiiiiii     ssssssssss   ttttttt:::::ttttttt      aaaaaaaaaaaaa  nnnn  nnnnnnnn    ttttttt:::::ttttttt    
+          A:::::A:::::A          ss::::::::::s    ss::::::::::s  i:::::i   ss::::::::::s  t:::::::::::::::::t      a::::::::::::a n:::nn::::::::nn  t:::::::::::::::::t    
+         A:::::A A:::::A       ss:::::::::::::s ss:::::::::::::s  i::::i ss:::::::::::::s t:::::::::::::::::t      aaaaaaaaa:::::an::::::::::::::nn t:::::::::::::::::t    
+        A:::::A   A:::::A      s::::::ssss:::::ss::::::ssss:::::s i::::i s::::::ssss:::::stttttt:::::::tttttt               a::::ann:::::::::::::::ntttttt:::::::tttttt    
+       A:::::A     A:::::A      s:::::s  ssssss  s:::::s  ssssss  i::::i  s:::::s  ssssss       t:::::t              aaaaaaa:::::a  n:::::nnnn:::::n      t:::::t          
+      A:::::AAAAAAAAA:::::A       s::::::s         s::::::s       i::::i    s::::::s            t:::::t            aa::::::::::::a  n::::n    n::::n      t:::::t          
+     A:::::::::::::::::::::A         s::::::s         s::::::s    i::::i       s::::::s         t:::::t           a::::aaaa::::::a  n::::n    n::::n      t:::::t          
+    A:::::AAAAAAAAAAAAA:::::A  ssssss   s:::::s ssssss   s:::::s  i::::i ssssss   s:::::s       t:::::t    tttttta::::a    a:::::a  n::::n    n::::n      t:::::t    tttttt
+   A:::::A             A:::::A s:::::ssss::::::ss:::::ssss::::::si::::::is:::::ssss::::::s      t::::::tttt:::::ta::::a    a:::::a  n::::n    n::::n      t::::::tttt:::::t
+  A:::::A               A:::::As::::::::::::::s s::::::::::::::s i::::::is::::::::::::::s       tt::::::::::::::ta:::::aaaa::::::a  n::::n    n::::n      tt::::::::::::::t
+ A:::::A                 A:::::As:::::::::::ss   s:::::::::::ss  i::::::i s:::::::::::ss          tt:::::::::::tt a::::::::::aa:::a n::::n    n::::n        tt:::::::::::tt
+AAAAAAA                   AAAAAAAsssssssssss      sssssssssss    iiiiiiii  sssssssssss              ttttttttttt    aaaaaaaaaa  aaaa nnnnnn    nnnnnn          ttttttttttt  
+                                                                                                                                                                                                                                                                                              
+                                                                                                                                                                                                                                                                                              
+                                                                                                                                                                                                                                                                                              
+                                                                                                                                                                                                                                                                                              
+                                                                                                                                                                                                                                                                                              
+                                                                                                                                                                                                                                                                                              
+                                                                                                                                                                                                                                                                                              </h1>
     <p>
-        Ticket Assistant is a production-ready Discord ticket management bot designed
+        Ticket Assistant is a Discord ticket management bot designed
         for structured support systems, moderation workflows, and scalable server environments.
         Built with Python and discord.py, it provides a robust and maintainable infrastructure
         for managing user support channels within Discord communities.
@@ -322,12 +411,21 @@ python -m main.main</pre>
 </div>
 
 <div class="section">
-    <h2>Architecture Overview</h2>
-    <p>
-        The system follows a modular architecture separating configuration management,
-        command registration, event listeners, and ticket logic into structured components.
-        This separation ensures maintainability, testability, and future scalability.
-    </p>
+    <h2>Socials</h2>
+    <div class="contact-grid">
+        <a class="contact-card" href="mailto:0bi0prof@gmai.com">
+            <i data-lucide="mail"></i>
+            <span>Email</span>
+        </a>
+        <a class="contact-card" href="https://github.com/0bi0" target="_blank">
+            <i data-lucide="github"></i>
+            <span>GitHub</span>
+        </a>
+        <a class="contact-card" href="https://discord.com/users/0bi0">
+            <i data-lucide="message-circle"></i>
+            <span>Discord</span>
+        </a>
+    </div>
 </div>
 
 <footer>
@@ -344,4 +442,4 @@ lucide.createIcons();
 </html>
 
 
-<!-- chatgpt comments cause I cba coming up with smth on my own-->
+<!-- meow :3 -->>
