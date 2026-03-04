@@ -12,6 +12,11 @@ from discord import app_commands
 # Creates the command
 @app_commands.command(name="help", description="General assistance regarding this bot")
 async def help(interaction: discord.Interaction):
+    try:
+        await interaction.response.defer(ephemeral=True)
+    except discord.NotFound:
+        return
+
     embed = discord.Embed(
         title="Ticket Management Bot",
         color=0x00ffcc
@@ -43,7 +48,6 @@ async def help(interaction: discord.Interaction):
         "All executable commands can be found in the list below.\n"
         "\n"
         "Ticket Stat commands:\n"
-        "・`/ticketstats all <days>` - Shows stats for all ticket categories in last X days\n"
         "・`/ticketstats <category> <days>` - Shows stats for the specified category\n"
         "Ticket DataBase commands:\n"
         "・`/wipestats` - Wipes the database of all information (System-Admin+)\n"
@@ -60,7 +64,10 @@ async def help(interaction: discord.Interaction):
 
     # Footer + Send message argument
     embed.set_footer(text="PvPHub | Made by 0bi0")
-    await interaction.response.send_message(embed=embed, ephemeral=True)
+    try:
+        await interaction.followup.send(embed=embed, ephemeral=True)
+    except discord.NotFound:
+        return
 
 
 
@@ -71,6 +78,11 @@ async def help(interaction: discord.Interaction):
 # Creates the command
 @app_commands.command(name="viewpermissions", description="Information regarding perms of each role")
 async def viewpermissions(interaction: discord.Interaction):
+    try:
+        await interaction.response.defer(ephemeral=True)
+    except discord.NotFound:
+        return
+
     embed = discord.Embed(
         title="Information regarding Permissions",
         color=0x00ffcc
@@ -97,4 +109,7 @@ async def viewpermissions(interaction: discord.Interaction):
 
     # Footer + Send message argument
     embed.set_footer(text="PvPHub | Made by 0bi0")
-    await interaction.response.send_message(embed=embed, ephemeral=True)
+    try:
+        await interaction.followup.send(embed=embed, ephemeral=True)
+    except discord.NotFound:
+        return

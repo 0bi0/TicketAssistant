@@ -1,5 +1,7 @@
 tickets.db
+tickets.db-journal
 cogs/__pycache__
 commands/__pycache__
 main/__pycache__
-tickets.db-journal
+cogs/events/__pycache__
+cogs/lists/__pycache__

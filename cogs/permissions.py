@@ -1,53 +1,16 @@
 # Necessary imports
 import discord
 
+from cogs.lists.allowed_roles import STATS_ALLOWED_ROLES
+from cogs.lists.database_perms import DATABASE_PERMS
+from cogs.lists.manage_user_perms import MANAGE_USER_PERMS
+from cogs.lists.support_roles import SUPPORT_ROLES
+from cogs.lists.ticket_categories import TICKET_CATEGORIES
 
 
-# User roles that are registered as Support Representatives
-SUPPORT_ROLES = {
-    "Admin Permissions",
-    "Owner",
-    "System-Admin",
-    "Administrator",
-    "Sr. Mod",
-    "Mod",
-    "Support"
-}
-
-# Roles allowed to execute the command `/ticketstats <category>`
-STATS_ALLOWED_ROLES = [
-    "Admin Permissions",
-    "Owner",
-    "System-Admin",
-    "Administrator",
-    "General Tickets Manager",
-    "Reports Manager",
-    "Appeals Manager"
-]
-
-# Users allowed to wipe the databse and view its audit log
-DATABASE_PERMS = [
-    "Admin Permissions",
-    "Owner",
-    "System-Admin"
-]
-
-# Users allowed to add/remove users to/from the max perms list
-MANAGE_USER_PERMS = [
-    "Owner"
-]
 
 # Users with max perms (bypasses role requirements)
-PRIVILEGED_USERS = {
-    000000000000000000   # Example user
-}
-
-# Ticket categories (pretty self-explanatory)
-TICKET_CATEGORIES = {
-    "appeals": "Appeals",
-    "general": "General Tickets",
-    "reports": "Player-Reports"
-}
+PRIVILEGED_USERS = set()
 
 
 
