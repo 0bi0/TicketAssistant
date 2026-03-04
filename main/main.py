@@ -2,9 +2,11 @@
 import discord
 from discord import app_commands
 import aiosqlite
-import importlib
 import time
 import os
+import atexit
+import msvcrt
+import sys
 
 
 from cogs.permissions import (
@@ -15,11 +17,38 @@ from cogs.permissions import (
 )
 
 
-# Loads commands from files
-from commands.databse_commands import wipestats, wipehistory
-from commands.miscellaneous_commands import help, viewpermissions
-from commands.privileged_user_commands import maxpermsadd, maxpermsremove, privilegedusers
+from main.command_registry import register_commands
 
+
+BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
+DB_PATH = os.path.join(BASE_DIR, "tickets.db")
+LOCK_PATH = os.path.join(BASE_DIR, ".bot.lock")
+
+
+def enforce_single_instance() -> None:
+    """Prevent running multiple bot instances in the same project directory."""
+    lock_file = open(LOCK_PATH, "a+")
+    try:
+        lock_file.seek(0)
+        lock_file.write("0")
+        lock_file.flush()
+        msvcrt.locking(lock_file.fileno(), msvcrt.LK_NBLCK, 1)
+    except OSError:
+        print("Another bot instance is already running. Stop it before starting a new one.")
+        sys.exit(1)
+
+    def _release_lock() -> None:
+        try:
+            lock_file.seek(0)
+            msvcrt.locking(lock_file.fileno(), msvcrt.LK_UNLCK, 1)
+        except OSError:
+            pass
+        lock_file.close()
+
+    atexit.register(_release_lock)
+
+
+enforce_single_instance()
 
 
 # Enables necessary Discord intents
@@ -32,19 +61,13 @@ intents.guilds = True
 client = discord.Client(intents=intents)
 tree = app_commands.CommandTree(client)
 
-# Imports (adds) commands from their perspective file to main.py
-tree.add_command(wipestats)
-tree.add_command(wipehistory)
-tree.add_command(help)
-tree.add_command(viewpermissions)
-tree.add_command(maxpermsadd)
-tree.add_command(maxpermsremove)
-tree.add_command(privilegedusers)
+# Register standalone commands in one place.
+register_commands(tree)
 
 
 
 # Your bot token
-TOKEN = "your_token_goes_here"
+TOKEN = "MTQ2NTA2NzE3MzQyMzg3NDA0OA.GMdthU.dCV9w4qbw1DPkC9DtUO8hxwAu6DhWkPEZwmPUA"
 
 # TicketsV2 UserID
 TICKETS_BOT_ID = 1325579039888511056
@@ -56,15 +79,14 @@ TICKETS_BOT_ID = 1325579039888511056
 # Sequence for when bot starts
 @client.event
 async def on_ready():
+    if getattr(client, "_startup_complete", False):
+        print(f"Bot reconnected as {client.user}")
+        return
+
+    client._startup_complete = True
+
     # Connect ONCE
-    client.db = await aiosqlite.connect("tickets.db")
-    
-    commands_path = os.path.join(os.path.dirname(__file__), "..", "commands")
-    if os.path.exists(commands_path):
-        for filename in os.listdir(commands_path):
-            if filename.endswith(".py") and not filename.startswith("__"):
-                module_name = f"commands.{filename[:-3]}"
-                importlib.import_module(module_name)
+    client.db = await aiosqlite.connect(DB_PATH)
 
     # Base table
     await client.db.execute("""
@@ -114,7 +136,11 @@ async def on_ready():
         )
     """)
 
+    # Cleanup invalid legacy entries.
+    await client.db.execute("DELETE FROM privileged_users WHERE user_id <= 0")
+
     # Load IDs into memory
+    PRIVILEGED_USERS.clear()
     cursor = await client.db.execute("SELECT user_id FROM privileged_users")
     rows = await cursor.fetchall()
     for row in rows:
