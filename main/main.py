@@ -170,6 +170,7 @@ async def run_ticket_stats(interaction: discord.Interaction, days: int, category
         await interaction.response.send_message("❌ No permission.", ephemeral=True)
         return
 
+    # Calculates timestamp 'days' ago from current time
     since = int(time.time()) - days * 86400
 
     if category_key is None:
@@ -191,6 +192,7 @@ async def run_ticket_stats(interaction: discord.Interaction, days: int, category
         params = (since, category_name)
         label = category_name
 
+    # Fetch ticket rows from the database using the query.
     cursor = await client.db.execute(query, params)
     rows = await cursor.fetchall()
 
@@ -207,10 +209,12 @@ async def run_ticket_stats(interaction: discord.Interaction, days: int, category
     # Computes statistics
     peak_open = compute_peak_concurrent(tickets)
 
+    # Important section for calculation argument names
     first_response_times = []
     handling_times = []
     rep_response_times = []
 
+    # Collects response and handling times for ticket statistics
     for channel_id, opened_at, closed_at, _ in rows:
         cursor = await client.db.execute("""
             SELECT timestamp
@@ -237,6 +241,7 @@ async def run_ticket_stats(interaction: discord.Interaction, days: int, category
 
         staff_rows = await cursor.fetchall()
 
+        # Computes staff response times
         if len(staff_rows) >= 2:
             staff_timestamps = [row[0] for row in staff_rows]
 
