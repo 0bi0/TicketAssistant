@@ -8,14 +8,12 @@ import atexit
 import msvcrt
 import sys
 
-
 from cogs.permissions import (
     PRIVILEGED_USERS,
     TICKET_CATEGORIES,
 
     has_stats_permission,
 )
-
 
 from main.command_registry import register_commands
 
@@ -67,7 +65,7 @@ register_commands(tree)
 
 
 # Your bot token
-TOKEN = "MTQ2NTA2NzE3MzQyMzg3NDA0OA.GMdthU.dCV9w4qbw1DPkC9DtUO8hxwAu6DhWkPEZwmPUA"
+TOKEN = "your_bot_token_here"
 
 # TicketsV2 UserID
 TICKETS_BOT_ID = 1325579039888511056
