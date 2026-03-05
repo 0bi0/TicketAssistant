@@ -41,6 +41,7 @@ as a complete list of all names and permissions found in said directory.
 - System-Admin
 
 ## User Permission Management:
+- Admin Permissions
 - Owner
 
 
