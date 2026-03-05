@@ -9,9 +9,8 @@ from commands.privileged_user_commands import (
     privilegedusers,
 )
 
-
+# Registers all standalone slash commands onto the command tree
 def register_commands(tree: app_commands.CommandTree[discord.Client]) -> None:
-    """Register all standalone slash commands onto the command tree."""
     tree.add_command(wipestats)
     tree.add_command(wipehistory)
     tree.add_command(help)

@@ -68,7 +68,6 @@ async def maxpermsadd(interaction: discord.Interaction, user: discord.User):
 #
 # Removes max permissions from a user
 
-
 @app_commands.command(name="maxpermsremove", description="Remove max permissions from a user")
 @app_commands.describe(user="User to revoke max perms")
 async def maxpermsremove(interaction: discord.Interaction, user: discord.User):
@@ -112,10 +111,10 @@ async def maxpermsremove(interaction: discord.Interaction, user: discord.User):
     print(f"[MAX PERMS REMOVE] {interaction.user} removed max perms from {user}")
 
 
+
 # ===| Privileged users list command |===
 #
 # Displays all users with max permissions
-
 
 @app_commands.command(name="privilegedusers", description="List all users with max permissions")
 async def privilegedusers(interaction: discord.Interaction):
