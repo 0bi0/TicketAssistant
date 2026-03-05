@@ -18,13 +18,15 @@ from cogs.permissions import (
 from main.command_registry import register_commands
 
 
+# Defines paths for database and lock file
 BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 DB_PATH = os.path.join(BASE_DIR, "tickets.db")
 LOCK_PATH = os.path.join(BASE_DIR, ".bot.lock")
 
 
+# Single instance enforcement using file locking
 def enforce_single_instance() -> None:
-    """Prevent running multiple bot instances in the same project directory."""
+    # Prevent running multiple bot instances in the same project directory.
     lock_file = open(LOCK_PATH, "a+")
     try:
         lock_file.seek(0)
@@ -35,6 +37,7 @@ def enforce_single_instance() -> None:
         print("Another bot instance is already running. Stop it before starting a new one.")
         sys.exit(1)
 
+    # Ensure lock is released on exit
     def _release_lock() -> None:
         try:
             lock_file.seek(0)
@@ -43,9 +46,11 @@ def enforce_single_instance() -> None:
             pass
         lock_file.close()
 
+    # Register the cleanup function to release the lock on exit
     atexit.register(_release_lock)
 
 
+# Enforce single instance at startup (cause sometimes the dumbass bot duplicates user permissions for some god-forsaken reason and I can't do shit to debug that)
 enforce_single_instance()
 
 
