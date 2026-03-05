@@ -64,12 +64,14 @@ async def on_message(message: discord.Message):
         embed = message.embeds[0]
         text_blob = (embed.title or "") + " " + (embed.description or "")
 
+        # Markers that are commonly found in ticket opening messages to help identify them (expand/alter this list if needed)
         OPEN_MARKERS = [
             "what is your username",
             "please describe your issue",
             "what server is this happening on"
         ]
 
+        # Check if any of the markers are present in the embed text to identify ticket openings
         if any(marker in text_blob.lower() for marker in OPEN_MARKERS):
             cursor = await client.db.execute(
                 "SELECT 1 FROM tickets WHERE channel_id=?",
@@ -80,6 +82,7 @@ async def on_message(message: discord.Message):
             if not exists:
                 category_name = get_ticket_category(message.channel)
 
+                # Insert new ticket record into the database
                 await client.db.execute(
                     "INSERT INTO tickets(channel_id, category, opened_at, closed_at) VALUES (?, ?, ?, NULL)",
                     (message.channel.id, category_name, now)
