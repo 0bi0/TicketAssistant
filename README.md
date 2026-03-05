@@ -44,13 +44,14 @@ To run the bot, you must create your own Discord application:
 
 ## 🔐 Environment Variables
 
-In `permissions.py`, in your project root, configure the following:
+In `cogs/lists`, in your project root, configure the following:
 - **DISCORD_TOKEN**="your_discord_bot_token"
 - **SUPPORT_ROLES**="your_support_representatives"
 - **STATS_ALLOWED_ROLES**="ticket_manager_roles"
 - **DATABASE_PERMS**="databse_interaction_perms"
 - **MANAGE_USER_PERMS**="manage_users_perms"
 - **TICKET_CATEGORIES**="names_of_ticket_categories"
+- **OPEN_MARKERS**="ticket_bot_opening_messages"
 
 
 ---
