@@ -225,6 +225,7 @@ async def run_ticket_stats(interaction: discord.Interaction, days: int, category
     cursor = await client.db.execute(query, params)
     rows = await cursor.fetchall()
 
+    # If no tickets are found, send a message and return early.
     if not rows:
         await interaction.response.send_message(
             f"No **{label}** tickets in that period.",
@@ -348,6 +349,7 @@ async def run_ticket_stats(interaction: discord.Interaction, days: int, category
         app_commands.Choice(name="Reports", value="reports"),
     ]
 )
+# Very fucking important command (for obvious reasons)
 async def ticketstats(
     interaction: discord.Interaction,
     category: app_commands.Choice[str],

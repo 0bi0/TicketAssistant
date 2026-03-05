@@ -12,6 +12,10 @@ from cogs.permissions import(
     is_staff
 )
 
+from lists.opening_messages import(
+    OPEN_MARKERS
+)
+
 
 
 # Creates the definition related to ticket-opening
@@ -44,6 +48,7 @@ async def on_message(message: discord.Message):
                     now
                 )
             )
+            # Adds to DB
             await client.db.commit()
 
     # Safe DM category logging
@@ -63,13 +68,6 @@ async def on_message(message: discord.Message):
     if message.author.bot and message.author.id == TICKETS_BOT_ID and message.embeds:
         embed = message.embeds[0]
         text_blob = (embed.title or "") + " " + (embed.description or "")
-
-        # Markers that are commonly found in ticket opening messages to help identify them (expand/alter this list if needed)
-        OPEN_MARKERS = [
-            "what is your username",
-            "please describe your issue",
-            "what server is this happening on"
-        ]
 
         # Check if any of the markers are present in the embed text to identify ticket openings
         if any(marker in text_blob.lower() for marker in OPEN_MARKERS):
