@@ -5,6 +5,7 @@ from discord import app_commands
 from cogs.permissions import PRIVILEGED_USERS, has_manage_perms_permission
 
 
+# Helper function to refresh the in-memory privileged user cache from the database
 async def _refresh_privileged_users_from_db(interaction: discord.Interaction) -> None:
     """Refresh in-memory privileged user cache from DB to avoid stale state."""
     cursor = await interaction.client.db.execute(
@@ -17,10 +18,10 @@ async def _refresh_privileged_users_from_db(interaction: discord.Interaction) ->
         PRIVILEGED_USERS.add(row[0])
 
 
+
 # ===| Max perms add command |===
 #
 # Adds max permissions to a user
-
 
 @app_commands.command(name="maxpermsadd", description="Give a user max permissions")
 @app_commands.describe(user="User to grant max perms")
@@ -60,6 +61,7 @@ async def maxpermsadd(interaction: discord.Interaction, user: discord.User):
         return
 
     print(f"[MAX PERMS ADD] {interaction.user} granted max perms to {user}")
+
 
 
 # ===| Max perms remove command |===
