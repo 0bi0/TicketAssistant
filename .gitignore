@@ -5,3 +5,4 @@ commands/__pycache__
 main/__pycache__
 cogs/events/__pycache__
 cogs/lists/__pycache__
+.bot.lock
