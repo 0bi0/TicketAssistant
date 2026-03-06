@@ -44,7 +44,7 @@ To run the bot, you must create your own Discord application:
 
 ## 🔐 Environment Variables
 
-In `cogs/lists`, in your project root, configure the following:
+In `../cogs/lists`, in your project root, configure the following:
 - **DISCORD_TOKEN**="your_discord_bot_token"
 - **SUPPORT_ROLES**="your_support_representatives"
 - **STATS_ALLOWED_ROLES**="ticket_manager_roles"
