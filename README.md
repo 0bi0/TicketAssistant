@@ -4,6 +4,7 @@ The Ticket Assistant is a lightweight, asynchronous Discord bot created in Pytho
 
 ![Bot banner](attachments/banner.png)
 
+
 ---
 
 
@@ -79,8 +80,10 @@ In `../cogs/lists`, in your project root, configure the following:
 ---
 
 
-## Purpose
+## License
 
-The Ticket Assistant is designed to increase transparency, accountability, and efficiency within Discord servers. 
+The Ticket Assistant is licensed under the MIT License, meaning anyone is free to utilise, modify, or
+redisribute the software as they please, with the only prerequisite being that they license it under
+the MIT License as well.
 
-By providing automated tracking and statistical insight, it ensures that no ticket is overlooked and that management remains fully informed at all times.
+This is not an official Discord product, nor is it affiliated with or endorsed by Discord Inc.
