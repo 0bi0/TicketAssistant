@@ -1,5 +1,5 @@
 import discord
-from discord import app_commands
+from discord import app_commands, tree
 
 from commands.databse_commands import wipestats, wipehistory
 from commands.miscellaneous_commands import help, viewpermissions
