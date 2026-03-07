@@ -82,10 +82,13 @@ TICKETS_BOT_ID = 1325579039888511056
 # Sequence for when bot starts
 @client.event
 async def on_ready():
+    activity = discord.Activity(type=discord.ActivityType.watching, name="Watching the gears turn")
+    await client.change_presence(status=discord.Status.online, activity=activity)
     if getattr(client, "_startup_complete", False):
         print(f"Bot reconnected as {client.user}")
         return
 
+    # Flag to prevent multiple on_ready executions during startup (this shit really pisses me off)
     client._startup_complete = True
 
     # Connect ONCE
@@ -142,11 +145,13 @@ async def on_ready():
     # Cleanup invalid legacy entries.
     await client.db.execute("DELETE FROM privileged_users WHERE user_id <= 0")
 
-    # Load IDs into memory
+    # Load privileged users list and clears the in-memory set first to avoid duplicates on reconnects
     PRIVILEGED_USERS.clear()
     cursor = await client.db.execute("SELECT user_id FROM privileged_users")
     rows = await cursor.fetchall()
     for row in rows:
+    
+        # Adds privileged user IDs to the in-memory set
         PRIVILEGED_USERS.add(row[0])
 
     await client.db.commit()
@@ -186,7 +191,7 @@ def compute_peak_concurrent(tickets: list[tuple[int, int | None]]) -> int:
 
 # DataBase-related section of code
 #
-# DO NOT TOUCH
+# Edit with caution: Rather unstable and can *potentially* cause data loss
 
 # Creates the definition for DB handling
 async def run_ticket_stats(interaction: discord.Interaction, days: int, category_key: str | None):

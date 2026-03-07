@@ -2,7 +2,7 @@
 import discord
 from discord import app_commands
 
-from cogs.permissions import PRIVILEGED_USERS, has_manage_perms_permission
+from cogs.permissions import (PRIVILEGED_USERS, has_manage_perms_permission)
 
 
 # Helper function to refresh the in-memory privileged user cache from the database

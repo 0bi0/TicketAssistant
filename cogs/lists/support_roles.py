@@ -7,4 +7,5 @@ SUPPORT_ROLES = {
     "Sr. Mod",
     "Mod",
     "Support",
+    "Ticket Access"
 }
