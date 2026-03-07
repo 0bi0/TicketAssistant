@@ -19,7 +19,7 @@ async def help(interaction: discord.Interaction):
 
     embed = discord.Embed(
         title="Ticket Management Bot",
-        color=0x00ffcc
+        color=0xb6b6b6
     )
 
     # First section of the Bot's output
@@ -63,7 +63,7 @@ async def help(interaction: discord.Interaction):
     ), inline=False)
 
     # Footer + Send message argument
-    embed.set_footer(text="PvPHub | Made by 0bi0")
+    embed.set_footer(text="Ticket Assistant | Made by 0bi0")
     try:
         await interaction.followup.send(embed=embed, ephemeral=True)
     except discord.NotFound:
@@ -85,7 +85,7 @@ async def viewpermissions(interaction: discord.Interaction):
 
     embed = discord.Embed(
         title="Information regarding Permissions",
-        color=0x00ffcc
+        color=0xb6b6b6
     )
 
     # NOTE: Privileged users will always have max perms regardless
@@ -108,7 +108,7 @@ async def viewpermissions(interaction: discord.Interaction):
     ), inline=False)
 
     # Footer + Send message argument
-    embed.set_footer(text="PvPHub | Made by 0bi0")
+    embed.set_footer(text="Ticket Assistant | Made by 0bi0")
     try:
         await interaction.followup.send(embed=embed, ephemeral=True)
     except discord.NotFound:

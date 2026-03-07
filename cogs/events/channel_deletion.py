@@ -1,6 +1,7 @@
 # Necessary imports
 import time
-from discord import client
+
+from main.bot import client
 
 # Detection for when a ticket is closed (*see attached note)
 @client.event

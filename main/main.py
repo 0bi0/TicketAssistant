@@ -16,6 +16,8 @@ from cogs.permissions import (
 )
 
 from main.command_registry import register_commands
+from main.bot import client, tree, TICKETS_BOT_ID
+
 
 
 # Defines paths for database and lock file
@@ -27,11 +29,11 @@ LOCK_PATH = os.path.join(BASE_DIR, ".bot.lock")
 # Single instance enforcement using file locking
 def enforce_single_instance() -> None:
     # Prevent running multiple bot instances in the same project directory.
-    lock_file = open(LOCK_PATH, "a+")
+    lock_file = open(LOCK_PATH, "w+")
     try:
-        lock_file.seek(0)
         lock_file.write("0")
         lock_file.flush()
+        lock_file.seek(0)
         msvcrt.locking(lock_file.fileno(), msvcrt.LK_NBLCK, 1)
     except OSError:
         print("Another bot instance is already running. Stop it before starting a new one.")
@@ -54,16 +56,6 @@ def enforce_single_instance() -> None:
 enforce_single_instance()
 
 
-# Enables necessary Discord intents
-intents = discord.Intents.default()
-intents.message_content = True
-intents.members = True
-intents.guilds = True
-
-# Initialize Discord client and command tree
-client = discord.Client(intents=intents)
-tree = app_commands.CommandTree(client)
-
 # Register standalone commands in one place.
 register_commands(tree)
 
@@ -71,11 +63,6 @@ register_commands(tree)
 
 # Your bot token
 TOKEN = "your_bot_token_here"
-
-# TicketsV2 UserID
-TICKETS_BOT_ID = 1325579039888511056
-# NOTE: You can replace this ID with any other Discord Ticket bot's ID if you
-#       wish to use another bot, rather than the TicketsV2 
 
 
 
@@ -327,7 +314,7 @@ async def run_ticket_stats(interaction: discord.Interaction, days: int, category
         f"**•ㅤAverage Duration**: `{fmt(avg_handle)}`"
     )
 
-    embed = discord.Embed(description=description_content,color=discord.Color.from_rgb(0, 189, 247))
+    embed = discord.Embed(description=description_content,color=discord.Color.from_rgb(182, 182, 182))
 
     # Sends message
     await interaction.response.send_message(embed=embed)
@@ -379,6 +366,12 @@ async def ticketstats(
     cat_key = None if cat == "all" else cat
 
     await run_ticket_stats(interaction, days, cat_key)
+
+
+
+# Import event handlers so their @client.event decorators register (ChatGPT told me to do this, idk man, it's 2AM)
+import cogs.events.message_detection
+import cogs.events.channel_deletion
 
 
 

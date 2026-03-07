@@ -1,9 +1,9 @@
 # Necessary imports
 import time
 import discord
-from discord import client
 
-from main.main import(
+from main.bot import(
+    client,
     TICKETS_BOT_ID
 )
 
@@ -12,7 +12,7 @@ from cogs.permissions import(
     is_staff
 )
 
-from lists.opening_messages import(
+from cogs.lists.opening_messages import(
     OPEN_MARKERS
 )
 

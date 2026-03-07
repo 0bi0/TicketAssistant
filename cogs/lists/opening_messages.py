@@ -2,5 +2,6 @@
 OPEN_MARKERS = [
     "what is your username",
     "please describe your issue",
-    "what server is this happening on"
+    "what server is this happening on",
+    "thank you for contacting support"
 ]
