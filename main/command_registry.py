@@ -1,13 +1,9 @@
 import discord
-from discord import app_commands, tree
+from discord import app_commands
 
 from commands.databse_commands import wipestats, wipehistory
 from commands.miscellaneous_commands import help, viewpermissions
-from commands.privileged_user_commands import (
-    maxpermsadd,
-    maxpermsremove,
-    privilegedusers,
-)
+from commands.privileged_user_commands import (maxpermsadd, maxpermsremove, privilegedusers,)
 
 # Registers all standalone slash commands onto the command tree
 def register_commands(tree: app_commands.CommandTree[discord.Client]) -> None:
