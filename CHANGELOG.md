@@ -1,9 +1,10 @@
-## [v1.2.1](https://github.com/0bi0/TicketAssistant/commit/00a08dacdbd5569266d066a7a86caff75fc96437) - 08/03/2026
+## [v1.2.1](https://github.com/0bi0/TicketAssistant/commit/2c64c84d9c071cbea888c54684af136afba291e3) - 08/03/2026
 
 
 ### Features
 
 - Updated GitHub page workflows and enhanced bot documentation
+
 
 
 
@@ -14,6 +15,7 @@
 
 - Changed core loading procedure for loading in the privileged users list
 - Split code into even more files in an attempt to improve overall performance
+
 
 
 
