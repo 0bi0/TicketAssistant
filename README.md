@@ -61,21 +61,17 @@ In `../cogs/lists`, in your project root, configure the following:
 
 ## 💻 Commands
 
-**Ticket Stat commands:**
-- `/ticketstats <category> <days>` - Shows stats for the specified category
+| Category | Command | Description |
+|--------|--------|--------|
+| **Ticket Statistics** | `/ticketstats <category> <days>` | Shows ticket statistics for a category |
+| **Database Management** | `/wipestats` | Wipes all stored statistics |
+| **Database Management** | `/wipehistory` | Shows history of database wipes |
+| **User Permissions** | `/maxpermsadd <user>` | Grants maximum permissions |
+| **User Permissions** | `/maxpermsremove <user>` | Removes maximum permissions |
+| **User Permissions** | `/privilegedusers` | Lists all privileged users |
+| **Miscellaneous** | `/viewpermissions` | Shows permission configuration |
+| **Miscellaneous** | `/help` | Displays help information |
 
-**Ticket DataBase commands:**
-- `/wipestats` - Wipes the database of all information (System-Admin+ default)
-- `/wipehistory` - Brings up the audit log of the most recent DB wipes
-
-**User Permission commands:**
-- `/maxpermsadd <user>` - Adds max permissions to the specified user
-- `/maxpermsremove <user>` - Removes max permissions from specified user
-- `/privilegedusers` - Displays all users with maximum permissions
-
-**Miscellaneous commands:**
-- `/viewpermissions` - Lists all of the permissions that each roles has
-- `/help` - General help about the bot and the features it provides
 
 ---
 
