@@ -7,6 +7,20 @@ import os
 import atexit
 import msvcrt
 import sys
+import io
+from datetime import datetime, timedelta, timezone
+from collections import Counter
+
+try:
+    import matplotlib  # type: ignore[reportMissingImports]
+
+    matplotlib.use("Agg")
+    import matplotlib.pyplot as plt  # type: ignore[reportMissingImports]
+    from matplotlib.ticker import MaxNLocator  # type: ignore[reportMissingImports]
+    MATPLOTLIB_AVAILABLE = True
+except ImportError:
+    MATPLOTLIB_AVAILABLE = False
+
 
 from cogs.permissions import (
     PRIVILEGED_USERS,
@@ -278,6 +292,27 @@ async def run_ticket_stats(interaction: discord.Interaction, days: int, category
     avg_handle = sum(handling_times) / len(handling_times) if handling_times else 0
     avg_rep_response = (sum(rep_response_times) / len(rep_response_times) if rep_response_times else 0)
 
+    # Aggregate handled tickets by close day.
+    # This ensures multiple handled tickets on the same day increase one bar.
+    handled_by_day = Counter()
+    for _, _, closed_at, _ in rows:
+        if closed_at:
+            # Use local date boundaries so same-day handled tickets are grouped as expected.
+            close_day = datetime.fromtimestamp(closed_at).date()
+            handled_by_day[close_day] += 1
+
+    # Always show every day in the requested range, even when count is zero.
+    start_day = datetime.fromtimestamp(since).date()
+    end_day = datetime.now().date()
+
+    graph_days = []
+    graph_counts = []
+    cursor_day = start_day
+    while cursor_day <= end_day:
+        graph_days.append(cursor_day.strftime("%b %d"))
+        graph_counts.append(handled_by_day.get(cursor_day, 0))
+        cursor_day += timedelta(days=1)
+
 
     # Defines the units of measurement
     def fmt(seconds):
@@ -311,13 +346,61 @@ async def run_ticket_stats(interaction: discord.Interaction, days: int, category
         f"**•ㅤPeak Concurrent**: `{peak_open}`\n"
         f"**•ㅤAverage Initial Response**: `{fmt(avg_first)}`\n"
         f"**•ㅤAverage Response Time**: `{fmt(avg_rep_response)}`\n"
-        f"**•ㅤAverage Duration**: `{fmt(avg_handle)}`"
+        f"**•ㅤAverage Duration**: `{fmt(avg_handle)}`\n"
+        f"**•ㅤHandled Tickets**: `{sum(graph_counts)}`"
     )
 
     embed = discord.Embed(description=description_content,color=discord.Color.from_rgb(182, 182, 182))
 
-    # Sends message
+    # Following code is executed if matplotlib is available in the current environment
+    if MATPLOTLIB_AVAILABLE:
+        # Creates a graph image in-memory and attach it to the embed
+        fig, ax = plt.subplots(figsize=(9, 3.5))
+        fig.patch.set_facecolor("#dcdcdc")
+        ax.set_facecolor("#dcdcdc")
+        x_positions = list(range(len(graph_days)))
+        ax.bar(x_positions, graph_counts, color="#5f7ea5")
+        ax.set_title("Handled Tickets Per Day")
+        ax.set_ylabel("Handled")
+        ax.title.set_color("#1a1a1a")
+        ax.yaxis.label.set_color("#1a1a1a")
+
+        # Adjust x-axis ticks based on the number of days to avoid clutter
+        if len(graph_days) <= 14:
+            tick_step = 1
+        elif len(graph_days) <= 45:
+            tick_step = 3
+        else:
+            tick_step = 7
+
+        # Adjust x-axis ticks and labels based on the number of days
+        tick_positions = x_positions[::tick_step] if x_positions else []
+        tick_labels = graph_days[::tick_step] if graph_days else []
+        ax.set_xticks(tick_positions)
+        ax.set_xticklabels(tick_labels, rotation=35, ha="right")
+        ax.tick_params(axis="x", colors="#1f1f1f")
+        ax.tick_params(axis="y", colors="#1f1f1f")
+        ax.yaxis.set_major_locator(MaxNLocator(integer=True))
+        ax.grid(axis="y", linestyle="--", color="#5c5c5c", alpha=0.35)
+        fig.tight_layout()
+
+        # Saves the graph to an in-memory buffer and prepares it for Discord upload
+        image_buffer = io.BytesIO()
+        fig.savefig(image_buffer, format="png", dpi=130)
+        plt.close(fig)
+        image_buffer.seek(0)
+
+        # Prepares the image file for Discord and sets it in the embed
+        chart_file = discord.File(fp=image_buffer, filename="ticketstats_handled.png")
+        embed.set_image(url="attachment://ticketstats_handled.png")
+
+        # Sends message
+        await interaction.response.send_message(embed=embed, file=chart_file)
+        return
+
+    # Fallback in case matplotlib is unavailable in the current environment
     await interaction.response.send_message(embed=embed)
+
 
 
 # ===| Slash command group |===
