@@ -1,6 +1,6 @@
 # Permissions
 
-This file is a general summary of the entire `../lists` directory. It serves
+This file is a general summary of the entire `../cogs/lists` directory. It serves
 as a complete list of all names and permissions found in said directory.
 
 
