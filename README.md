@@ -63,9 +63,9 @@ In `../cogs/lists`, in your project root, configure the following:
 
 | Category | Command | Description |
 |--------|--------|--------|
-| **Ticket Statistics** | `/ticketstats <category> <days>` | Shows ticket statistics for a category |
-| **Ticket Statistics** | `/tickethistory <category> <days>` | Shows ticket logs for specified days |
-| **Database Management** | `/wipestats` | Wipes all stored statistics |
+| **Ticket Statistics** | `/ticketstats <category> <days>` | Shows ticket statistics for the specified category |
+| **Ticket Statistics** | `/tickethistory <category> <days>` | Shows ticket logs for specified time period |
+| **Database Management** | `/wipestats` | Wipes all stored ticket statistics |
 | **Database Management** | `/wipehistory` | Shows history of database wipes |
 | **User Permissions** | `/maxpermsadd <user>` | Grants maximum permissions |
 | **User Permissions** | `/maxpermsremove <user>` | Removes maximum permissions |
