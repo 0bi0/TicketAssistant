@@ -40,6 +40,7 @@ DB_PATH = os.path.join(BASE_DIR, "tickets.db")
 LOCK_PATH = os.path.join(BASE_DIR, ".bot.lock")
 
 
+
 # Single instance enforcement using file locking
 def enforce_single_instance() -> None:
     # Prevent running multiple bot instances in the same project directory.
@@ -69,7 +70,6 @@ def enforce_single_instance() -> None:
 
 # Enforce single instance at startup (cause sometimes the dumbass bot duplicates user permissions for some god-forsaken reason and I can't do shit to debug that)
 enforce_single_instance()
-
 
 # Register standalone commands in one place.
 register_commands(tree)
@@ -144,7 +144,7 @@ async def on_ready():
         )
     """)
 
-    # Cleanup invalid legacy entries.
+    # Cleanup invalid legacy entries
     await client.db.execute("DELETE FROM privileged_users WHERE user_id <= 0")
 
     # Load privileged users list and clears the in-memory set first to avoid duplicates on reconnects
@@ -189,6 +189,7 @@ def compute_peak_concurrent(tickets: list[tuple[int, int | None]]) -> int:
             peak = current
 
     return peak
+
 
 
 # DataBase-related section of code
