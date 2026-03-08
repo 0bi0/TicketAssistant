@@ -31,6 +31,7 @@ async def maxpermsadd(interaction: discord.Interaction, user: discord.User):
     except discord.NotFound:
         return
 
+    # Refresh privileged users from DB to ensure only the latest state is used
     await _refresh_privileged_users_from_db(interaction)
 
     # Only owner/privileged users can use this

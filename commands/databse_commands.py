@@ -104,7 +104,7 @@ async def wipehistory(interaction: discord.Interaction):
 
     # Displays the most recent DB wipes
     embed = discord.Embed(
-        title="🧹 Database Wipe History",
+        title="Database Wipe History",
         description="\n".join(lines),
         color=discord.Color.orange()
     )
