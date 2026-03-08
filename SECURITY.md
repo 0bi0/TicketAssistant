@@ -10,4 +10,19 @@ Release versions that will receive security updates.
 
 ## Reporting a Vulnerability
 
-If you find a vulnerability, please send an email to [0bi0prof@proton.me](mailto:0bi0prof@proton.me).
+If you discover a security vulnerability, please report it by emailing [0bi0prof@proton.me](mailto:0bi0prof@proton.me).
+
+When reporting, please include as much of the following information as possible:
+
+- A clear description of the issue and its potential impact.
+- Step-by-step instructions to reproduce the vulnerability.
+- Any proof-of-concept code, requests, or screenshots that demonstrate the issue.
+- The versions of the project that appear to be affected.
+- Relevant environment details (for example: OS, runtime, configuration, and dependencies).
+- Any known mitigations or workarounds.
+
+### Response and Disclosure Policy
+
+- We aim to acknowledge vulnerability reports within **7 business days**.
+- After acknowledgement, we will investigate the issue, assess its impact, and develop a fix where appropriate.
+- We will keep you informed of the status of your report until it is resolved.

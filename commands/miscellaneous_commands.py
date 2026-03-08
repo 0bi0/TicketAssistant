@@ -49,6 +49,7 @@ async def help(interaction: discord.Interaction):
         "\n"
         "Ticket Stat commands:\n"
         "・`/ticketstats <category> <days>` - Shows stats for the specified category\n"
+        "・`/tickethistory <category> <time>` - Shows created tickets in the selected period\n"
         "Ticket DataBase commands:\n"
         "・`/wipestats` - Wipes the database of all information (System-Admin+)\n"
         "・`/wipehistory` - Brings up the audit log of the most recent DB wipes\n"

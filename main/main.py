@@ -66,6 +66,7 @@ def enforce_single_instance() -> None:
     atexit.register(_release_lock)
 
 
+
 # Enforce single instance at startup (cause sometimes the dumbass bot duplicates user permissions for some god-forsaken reason and I can't do shit to debug that)
 enforce_single_instance()
 
@@ -83,7 +84,7 @@ TOKEN = "your_bot_token_here"
 # Sequence for when bot starts
 @client.event
 async def on_ready():
-    activity = discord.Activity(type=discord.ActivityType.watching, name="Watching the gears turn")
+    activity = discord.CustomActivity(name="Watching the gears turn")
     await client.change_presence(status=discord.Status.online, activity=activity)
     if getattr(client, "_startup_complete", False):
         print(f"Bot reconnected as {client.user}")
@@ -292,19 +293,19 @@ async def run_ticket_stats(interaction: discord.Interaction, days: int, category
     avg_handle = sum(handling_times) / len(handling_times) if handling_times else 0
     avg_rep_response = (sum(rep_response_times) / len(rep_response_times) if rep_response_times else 0)
 
-    # Aggregate handled tickets by close day.
-    # This ensures multiple handled tickets on the same day increase one bar.
+    # Ensures multiple handled tickets on the same day increase one bar
     handled_by_day = Counter()
     for _, _, closed_at, _ in rows:
         if closed_at:
-            # Use local date boundaries so same-day handled tickets are grouped as expected.
+            # Use local date boundaries so same-day handled tickets are grouped as expected
             close_day = datetime.fromtimestamp(closed_at).date()
             handled_by_day[close_day] += 1
 
-    # Always show every day in the requested range, even when count is zero.
+    # Always show every day in the requested range, even when count is zero
     start_day = datetime.fromtimestamp(since).date()
     end_day = datetime.now().date()
 
+    # Graph data
     graph_days = []
     graph_counts = []
     cursor_day = start_day

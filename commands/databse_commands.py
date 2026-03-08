@@ -95,11 +95,10 @@ async def wipehistory(interaction: discord.Interaction):
     lines = []
     for wiped_by, cutoff_days, deleted_tickets, ts in rows:
         user = interaction.guild.get_member(wiped_by)
-        user_name = user.display_name if user else f"User ID {wiped_by}"
         time_str = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(ts))
 
         lines.append(
-            f"・**{user_name}** wiped ≥ **{cutoff_days}d** | "
+            f"・<@{wiped_by}> wiped ≥ **{cutoff_days}d** | "
             f"Deleted: **{deleted_tickets}** | `{time_str}`"
         )
 

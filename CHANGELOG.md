@@ -1,3 +1,20 @@
+## [v1.2.2](commit) - 08/03/2026
+
+
+### Features
+
+- Added `/tickethistory` for ticket logging purposes
+- Improved GitHub code comments for enhanced consistency
+- Added matplotlib-generated images in embed message of `/ticketstats`
+
+
+### Bug fixes
+
+- Added missing `dependabot.yml` file in order to better streamline docs' deployments
+
+
+
+
 ## [v1.2.1](https://github.com/0bi0/TicketAssistant/commit/2c64c84d9c071cbea888c54684af136afba291e3) - 08/03/2026
 
 
