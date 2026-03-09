@@ -10,7 +10,7 @@ Release versions that will receive security updates.
 
 ## Reporting a Vulnerability
 
-If you discover a security vulnerability, please report it by emailing [0bi0prof@proton.me](mailto:0bi0prof@proton.me).
+If you discover a security vulnerability, please report it by emailing [TA-vulnerabilities@proton.me](mailto:TA-vulnerabilities@proton.me).
 
 When reporting, please include as much of the following information as possible:
 
