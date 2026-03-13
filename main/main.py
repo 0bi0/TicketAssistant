@@ -5,11 +5,25 @@ import aiosqlite
 import time
 import os
 import atexit
-import msvcrt
 import sys
 import io
-from datetime import datetime, timedelta, timezone
+from datetime import datetime, timedelta
 from collections import Counter
+
+
+# Windows compatibility
+try:
+    import msvcrt
+except ImportError:
+    msvcrt = None
+
+
+# Linux compatibility
+try:
+    import fcntl
+except ImportError:
+    fcntl = None
+
 
 try:
     import matplotlib  # type: ignore[reportMissingImports]
@@ -28,6 +42,7 @@ from cogs.permissions import (
 
     has_stats_permission,
 )
+
 
 from main.command_registry import register_commands
 from main.bot import client, tree, TICKETS_BOT_ID
@@ -49,7 +64,12 @@ def enforce_single_instance() -> None:
         lock_file.write("0")
         lock_file.flush()
         lock_file.seek(0)
-        msvcrt.locking(lock_file.fileno(), msvcrt.LK_NBLCK, 1)
+        if msvcrt is not None:
+            msvcrt.locking(lock_file.fileno(), msvcrt.LK_NBLCK, 1)
+        else:
+            if fcntl is None:
+                raise OSError("No supported file locking module available")
+            fcntl.flock(lock_file.fileno(), fcntl.LOCK_EX | fcntl.LOCK_NB)
     except OSError:
         print("Another bot instance is already running. Stop it before starting a new one.")
         sys.exit(1)
@@ -58,7 +78,11 @@ def enforce_single_instance() -> None:
     def _release_lock() -> None:
         try:
             lock_file.seek(0)
-            msvcrt.locking(lock_file.fileno(), msvcrt.LK_UNLCK, 1)
+            if msvcrt is not None:
+                msvcrt.locking(lock_file.fileno(), msvcrt.LK_UNLCK, 1)
+            else:
+                if fcntl is not None:
+                    fcntl.flock(lock_file.fileno(), fcntl.LOCK_UN)
         except OSError:
             pass
         lock_file.close()
@@ -158,6 +182,22 @@ async def on_ready():
 
     await client.db.commit()
     await tree.sync()
+
+    login_banner = r"""
+======================================================================================================================
+
+___________.__          __             __          _____                   .__           __                    __    
+\__    ___/|__|  ____  |  | __  ____ _/  |_       /  _  \    ______  ______|__|  _______/  |_ _____     ____ _/  |_  
+  |    |   |  |_/ ___\ |  |/ /_/ __ \\   __\     /  /_\  \  /  ___/ /  ___/|  | /  ___/\   __\\__  \   /    \\   __\ 
+  |    |   |  |\  \___ |    < \  ___/ |  |      /    |    \ \___ \  \___ \ |  | \___ \  |  |   / __ \_|   |  \|  |   
+  |____|   |__| \___  >|__|_ \ \___  >|__|      \____|__  //____  >/____  >|__|/____  > |__|  (____  /|___|  /|__|   
+                    \/      \/     \/                   \/      \/      \/          \/             \/      \/        
+
+======================================================================================================================
+"""
+
+    # 💻 CONSOLE OUTPUT: Cool ass banner
+    print(login_banner)
 
     # 💻 CONSOLE OUTPUT: Successful bot startup
     print(f"Bot logged in successfully as {client.user}")
