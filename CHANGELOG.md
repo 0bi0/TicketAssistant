@@ -1,4 +1,4 @@
-## [v1.2.3](placeholder) - 13/03/2026
+## [v1.2.3](https://github.com/0bi0/TicketAssistant/commit/c7a1a973a9fa5fc22939643a9408b29ce713f13b) - 13/03/2026
 
 
 ### Features
