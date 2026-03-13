@@ -1,3 +1,18 @@
+## [v1.2.3](placeholder) - 13/03/2026
+
+
+### Features
+
+- Made console output on bot startup prettier
+
+
+### Bug fixes
+
+- Fixed (possibly) Linux compatability
+
+
+
+
 ## [v1.2.2](https://github.com/0bi0/TicketAssistant/commit/754741d42f7c962bec5f39d624ec00e1642bab39) - 08/03/2026
 
 
