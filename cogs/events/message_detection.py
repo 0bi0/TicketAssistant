@@ -18,6 +18,46 @@ from cogs.lists.opening_messages import(
 
 
 
+# Helper function to get a human-readable (AKA not ID) channel name
+async def get_readable_channel_name(message: discord.Message) -> str:
+    channel = message.channel
+
+    name = getattr(channel, "name", None)
+    if isinstance(name, str) and name.strip():
+        return name
+
+    # If the event channel object is partial/uncached, try guild cache by id.
+    if message.guild:
+        cached_channel = message.guild.get_channel(message.channel.id)
+        cached_name = getattr(cached_channel, "name", None)
+        if isinstance(cached_name, str) and cached_name.strip():
+            return cached_name
+
+        cached_thread = message.guild.get_thread(message.channel.id)
+        thread_name = getattr(cached_thread, "name", None)
+        if isinstance(thread_name, str) and thread_name.strip():
+            return thread_name
+
+    # Last-resort API fetch for channels not present in local cache.
+    try:
+        fetched_channel = await client.fetch_channel(message.channel.id)
+    except (discord.Forbidden, discord.NotFound, discord.HTTPException):
+        fetched_channel = None
+
+    fetched_name = getattr(fetched_channel, "name", None)
+    if isinstance(fetched_name, str) and fetched_name.strip():
+        return fetched_name
+
+    recipient = getattr(channel, "recipient", None)
+    if recipient:
+        recipient_name = getattr(recipient, "display_name", None) or getattr(recipient, "name", None)
+        if isinstance(recipient_name, str) and recipient_name.strip():
+            return recipient_name
+
+    return "Unknown Channel"
+
+
+
 # Creates the definition related to ticket-opening
 @client.event
 async def on_message(message: discord.Message):
@@ -56,11 +96,12 @@ async def on_message(message: discord.Message):
     category_name = category_name.name if category_name else None
 
     if message.author.bot:
+        channel_name = await get_readable_channel_name(message)
         print(
-            "[BOT MSG]",
-            "author_id=", message.author.id,
-            "channel=", message.channel.id,
-            "embeds=", len(message.embeds),
+            "[BOT MSG] |",
+            # "author_id=", message.author.id,     # Uncomment if you want to log bot message authors (even though it's always just the tickets bot)
+            "channel=", channel_name, "|",
+            "embeds=", len(message.embeds), "|",
             "category=", category_name
         )
 
@@ -88,4 +129,6 @@ async def on_message(message: discord.Message):
                 await client.db.commit()
 
                 # 💻 CONSOLE OUTPUT: Ticket opened
-                print("🎫 Ticket OPEN:", message.channel.id, "| category:", category_name)
+                open_log = f"🎫 Ticket OPEN: {message.channel.id} | category: {category_name}"
+                print(open_log)
+                print("-" * len(open_log))

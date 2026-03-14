@@ -61,7 +61,9 @@ async def maxpermsadd(interaction: discord.Interaction, user: discord.User):
     except discord.NotFound:
         return
 
-    print(f"[MAX PERMS ADD] {interaction.user} granted max perms to {user}")
+    log_line_add = f"[🟢 MAX PERMS ADD] {interaction.user} granted max perms to {user}"
+    print(log_line_add)
+    print("-" * len(log_line_add))
 
 
 
@@ -109,7 +111,9 @@ async def maxpermsremove(interaction: discord.Interaction, user: discord.User):
     except discord.NotFound:
         return
 
-    print(f"[MAX PERMS REMOVE] {interaction.user} removed max perms from {user}")
+    log_line_remove = f"[🔴 MAX PERMS REMOVE] {interaction.user} removed max perms from {user}"
+    print(log_line_remove)
+    print("-" * len(log_line_remove))
 
 
 
@@ -173,4 +177,7 @@ async def privilegedusers(interaction: discord.Interaction):
     except discord.NotFound:
         return
 
-    print(f"[👑 PRIV USERS VIEW] {interaction.user} viewed privileged users list")
+    # 💻 CONSOLE OUTPUT: View privileged users list
+    log_line_priv = f"[👑 PRIV USERS VIEW] {interaction.user} viewed privileged users list"
+    print(log_line_priv)
+    print("-" * len(log_line_priv))

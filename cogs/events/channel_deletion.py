@@ -14,7 +14,9 @@ async def on_guild_channel_delete(channel):
     await client.db.commit()
 
     # 💻 CONSOLE OUTPUT: Closed ticket
-    print(f"🗑️  Channel Deleted - Ticket Marked Closed: {channel.id}")
+    close_log = f"🗑️  Channel Deleted - Ticket Marked Closed: {channel.id}"
+    print(close_log)
+    print("-" * len(close_log))
 
     # NOTE: The only flaw in this bot is the fact that, in order to account for tickets closing,
     #       it simply detects wehther a channel has been deleted or not, thus resulting in its
