@@ -1,3 +1,4 @@
 discord.py
 matplotlib
 aiosqlite
+python-dotenv

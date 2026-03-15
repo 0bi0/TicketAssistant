@@ -9,6 +9,7 @@ import sys
 import io
 from datetime import datetime, timedelta
 from collections import Counter
+from dotenv import load_dotenv
 
 
 # Windows compatibility
@@ -53,6 +54,9 @@ from main.bot import client, tree, TICKETS_BOT_ID
 BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 DB_PATH = os.path.join(BASE_DIR, "tickets.db")
 LOCK_PATH = os.path.join(BASE_DIR, ".bot.lock")
+
+# Load environment variables from the project root .env file.
+load_dotenv(os.path.join(BASE_DIR, ".env"))
 
 
 
@@ -101,7 +105,10 @@ register_commands(tree)
 
 
 # Your bot token
-TOKEN = "your_bot_token_here"
+TOKEN = os.getenv("DISCORD_BOT_TOKEN")
+if not TOKEN:
+    print("Missing DISCORD_BOT_TOKEN in .env or environment variables.")
+    sys.exit(1)
 
 
 
