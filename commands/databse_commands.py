@@ -74,9 +74,17 @@ async def wipestats(interaction: discord.Interaction, days: int):
 # Creates the command and sets its permissions
 @app_commands.command(name="wipehistory", description="Show recent database wipe history")
 async def wipehistory(interaction: discord.Interaction):
+    try:
+        await interaction.response.defer(ephemeral=True)
+    except discord.NotFound:
+        return
+
     # Permission check
     if not has_database_permission(interaction.user):
-        await interaction.response.send_message("❌ You do not have permission to view wipe history.", ephemeral=True)
+        try:
+            await interaction.followup.send("❌ You do not have permission to view wipe history.", ephemeral=True)
+        except discord.NotFound:
+            return
         return
 
     cursor = await interaction.client.db.execute("""
@@ -89,7 +97,10 @@ async def wipehistory(interaction: discord.Interaction):
 
     # If not DB wipes can be found, the following arguments will be sent as output
     if not rows:
-        await interaction.response.send_message("ℹ️ No wipe history found.", ephemeral=True)
+        try:
+            await interaction.followup.send("ℹ️ No wipe history found.", ephemeral=True)
+        except discord.NotFound:
+            return
         return
 
     lines = []
@@ -111,4 +122,11 @@ async def wipehistory(interaction: discord.Interaction):
 
     # Footer + Send message argument
     embed.set_footer(text="Audit log | Last 10 wipes")
-    await interaction.response.send_message(embed=embed, ephemeral=True)
+    try:
+        await interaction.followup.send(embed=embed, ephemeral=True)
+    except discord.NotFound:
+        return
+
+    log_line_wipe = f"[📋 WIPE HISTORY] {interaction.user} viewed the database wipe history"
+    print(log_line_wipe)
+    print("-" * len(log_line_wipe))
