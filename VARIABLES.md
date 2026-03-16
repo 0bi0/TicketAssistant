@@ -57,6 +57,7 @@ its corresponding file, as listed below. Editting this file will not do anything
 ### Directories:
 - Ticket Categories: `../cogs/lists/ticket_categories.py`
 - Ticket Opening Message Markers: `../cogs/lists/opening_messages.py`
+- Ticket Closing Message Markers: `../cogs/lists/closing_messages.py`
 - Support Roles: `../cogs/lists/support_roles.py`
 - Stats Command Allowed Roles: `../cogs/lists/allowed_roles.py`
 - Database Permissions: `../cogs/lists/database_perms.py`

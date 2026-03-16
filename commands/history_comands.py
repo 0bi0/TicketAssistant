@@ -1,5 +1,6 @@
 # Necessary imports
 import math
+import re
 import time
 
 import discord
@@ -78,29 +79,56 @@ class TicketHistoryPaginationView(discord.ui.View):
 
 # Helper functions for the ticket history command
 def _format_ticket_line(
-    guild_id: int,
-    channel_id: int,
+    transcript_url: str,
     opened_at: int,
     closed_at: int | None,
     category_name: str,
 ) -> str:
     status = "Closed" if closed_at else "Open"
     opened_relative = f"<t:{opened_at}:R>"
-
-    # Fallback assumes transcript id matches saved ticket channel id.
-    log_url = TRANSCRIPT_BASE_URL.format(guild_id=guild_id, transcript_id=channel_id)
     return (
-        f"・[Ticket Log]({log_url}) | **{category_name}** | "
+        f"・[Ticket Log]({transcript_url}) | **{category_name}** | "
         f"Opened {opened_relative} | {status}"
     )
 
 
+def _build_transcript_url(guild_id: int, transcript_id: int) -> str:
+    return TRANSCRIPT_BASE_URL.format(guild_id=guild_id, transcript_id=transcript_id)
+
+
+def _extract_transcript_id_from_channel_name(channel_name: str) -> int | None:
+    channel_suffix_match = re.search(r"(\d+)$", channel_name)
+    if not channel_suffix_match:
+        return None
+    return int(channel_suffix_match.group(1))
+
+
+async def _resolve_transcript_url(
+    *,
+    guild: discord.Guild,
+    guild_id: int,
+    channel_id: int,
+    stored_transcript_url: str | None,
+) -> str:
+    if stored_transcript_url:
+        return stored_transcript_url
+
+    channel = guild.get_channel(channel_id)
+    if isinstance(channel, discord.TextChannel):
+        transcript_id = _extract_transcript_id_from_channel_name(channel.name)
+        if transcript_id is not None:
+            return _build_transcript_url(guild_id, transcript_id)
+
+    return _build_transcript_url(guild_id, channel_id)
+
+
 
 # Builds the list of embeds for the ticket history command based on the query results
-def _build_history_embeds(
+async def _build_history_embeds(
     *,
+    guild: discord.Guild,
     guild_id: int,
-    rows: list[tuple[int, int, int | None, str | None]],
+    rows: list[tuple[int, int, int | None, str | None, str | None]],
     category_label: str,
     period_label: str,
 ) -> list[discord.Embed]:
@@ -121,10 +149,16 @@ def _build_history_embeds(
         ]
 
         # Each row corresponds to a ticket, and we format it into a line in the embed's description
-        for channel_id, opened_at, closed_at, category in page_rows:
+        for channel_id, opened_at, closed_at, category, transcript_url in page_rows:
             safe_category = category or "Unknown"
+            resolved_transcript_url = await _resolve_transcript_url(
+                guild=guild,
+                guild_id=guild_id,
+                channel_id=channel_id,
+                stored_transcript_url=transcript_url,
+            )
             description_lines.append(
-                _format_ticket_line(guild_id, channel_id, opened_at, closed_at, safe_category)
+                _format_ticket_line(resolved_transcript_url, opened_at, closed_at, safe_category)
             )
 
         # Creates the embed for this page
@@ -213,7 +247,7 @@ async def tickethistory(
     # Build the appropriate query based on whether the user wants all categories or a specific category, and execute it
     if category_value == "all":
         query = """
-            SELECT channel_id, opened_at, closed_at, category
+            SELECT channel_id, opened_at, closed_at, category, transcript_url
             FROM tickets
             WHERE opened_at >= ?
             ORDER BY opened_at DESC
@@ -223,7 +257,7 @@ async def tickethistory(
     else:
         category_name = TICKET_CATEGORIES[category_value]
         query = """
-            SELECT channel_id, opened_at, closed_at, category
+                        SELECT channel_id, opened_at, closed_at, category, transcript_url
             FROM tickets
             WHERE opened_at >= ?
               AND category = ?
@@ -245,7 +279,8 @@ async def tickethistory(
         return
 
     # Build the list of embeds for the pagination view based on the query results
-    pages = _build_history_embeds(
+    pages = await _build_history_embeds(
+        guild=interaction.guild,
         guild_id=interaction.guild.id,
         rows=rows,
         category_label=category_label,

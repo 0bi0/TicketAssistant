@@ -12,6 +12,9 @@ from cogs.lists.ticket_categories import TICKET_CATEGORIES
 # Users with max perms (bypasses role requirements)
 PRIVILEGED_USERS = set()
 
+# Log channel for ticket events (persisted in DB, loaded on startup)
+LOG_CHANNEL_ID: list[int | None] = [None]
+
 
 
 # Permission checks

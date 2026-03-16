@@ -40,6 +40,7 @@ except ImportError:
 from cogs.permissions import (
     PRIVILEGED_USERS,
     TICKET_CATEGORIES,
+    LOG_CHANNEL_ID,
 
     has_stats_permission,
 )
@@ -158,6 +159,22 @@ async def on_ready():
 
         await client.db.execute("ALTER TABLE tickets ADD COLUMN category TEXT")
 
+    if "opened_by" not in columns:
+        print("Migrating DB: adding opened_by column")
+        await client.db.execute("ALTER TABLE tickets ADD COLUMN opened_by INTEGER")
+
+    if "closed_by" not in columns:
+        print("Migrating DB: adding closed_by column")
+        await client.db.execute("ALTER TABLE tickets ADD COLUMN closed_by INTEGER")
+
+    if "close_reason" not in columns:
+        print("Migrating DB: adding close_reason column")
+        await client.db.execute("ALTER TABLE tickets ADD COLUMN close_reason TEXT")
+
+    if "transcript_url" not in columns:
+        print("Migrating DB: adding transcript_url column")
+        await client.db.execute("ALTER TABLE tickets ADD COLUMN transcript_url TEXT")
+
     await client.db.execute("""
         CREATE TABLE IF NOT EXISTS messages(
             id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -186,6 +203,20 @@ async def on_ready():
     
         # Adds privileged user IDs to the in-memory set
         PRIVILEGED_USERS.add(row[0])
+
+    # Table for persisting the ticket log channel
+    await client.db.execute("""
+        CREATE TABLE IF NOT EXISTS log_channel(
+            id INTEGER PRIMARY KEY CHECK(id = 1),
+            channel_id INTEGER NOT NULL
+        )
+    """)
+
+    # Load log channel into memory
+    cursor = await client.db.execute("SELECT channel_id FROM log_channel WHERE id = 1")
+    row = await cursor.fetchone()
+    if row:
+        LOG_CHANNEL_ID[0] = row[0]
 
     await client.db.commit()
     await tree.sync()
@@ -291,7 +322,7 @@ async def run_ticket_stats(interaction: discord.Interaction, days: int, category
     cursor = await client.db.execute(query, params)
     rows = await cursor.fetchall()
 
-    # If no tickets are found, send a message and return early.
+    # If no tickets are found, send a message and return early
     if not rows:
         await interaction.response.send_message(
             f"No **{label}** tickets in that period.",

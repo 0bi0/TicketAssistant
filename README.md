@@ -40,13 +40,15 @@ To run the bot, you must create your own Discord application:
 - Invite the bot to your server with proper permissions
 - Configure the required environment variables
 
+For more information regarding bot setup, please consult `SETUP.md` 
+
 
 ---
 
 
 ## 🔐 Environment Variables
 
-In `../cogs/lists`, in your project root, configure the following:
+In `../cogs/lists` and `../.env`, in your project root, configure the following:
 - **DISCORD_TOKEN**="your_discord_bot_token"
 - **SUPPORT_ROLES**="your_support_representatives"
 - **STATS_ALLOWED_ROLES**="ticket_manager_roles"
@@ -54,6 +56,7 @@ In `../cogs/lists`, in your project root, configure the following:
 - **MANAGE_USER_PERMS**="manage_users_perms"
 - **TICKET_CATEGORIES**="names_of_ticket_categories"
 - **OPEN_MARKERS**="ticket_bot_opening_messages"
+- **CLOSE_MARKERS**="ticket_bot_closing_messages"
 
 
 ---
@@ -65,12 +68,12 @@ In `../cogs/lists`, in your project root, configure the following:
 |--------|--------|--------|
 | **Ticket Statistics** | `/ticketstats <category> <days>` | Shows ticket statistics for the specified category |
 | **Ticket Statistics** | `/tickethistory <category> <days>` | Shows ticket logs for specified time period |
+| **Ticket Statistics** | `/logchannelset <channel>` | Sets logging channel for ticket
 | **Database Management** | `/wipestats` | Wipes all stored ticket statistics |
 | **Database Management** | `/wipehistory` | Shows history of database wipes |
 | **User Permissions** | `/maxpermsadd <user>` | Grants maximum permissions |
 | **User Permissions** | `/maxpermsremove <user>` | Removes maximum permissions |
 | **User Permissions** | `/privilegedusers` | Lists all privileged users |
-| **Miscellaneous** | `/viewpermissions` | Shows permission configuration |
 | **Miscellaneous** | `/help` | Displays help information |
 
 

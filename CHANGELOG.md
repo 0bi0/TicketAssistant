@@ -1,3 +1,23 @@
+## [v1.3.0](https://placeholder.com) - 16/03/2026
+
+
+### Features
+
+- Added ticket logging channel via `/logchannelset` command usage
+- Merged `/viewpermissions` and `/listcommands` into `/help`
+- Synced `/wipestats` with `/tickethistory` as well (was wired only to `/ticketstats`)
+- Integrated `.env` file token loading mechanism
+- Further improved console logging across bot events
+
+
+### Bug fixes
+
+- Fixed `/wipestats` not entirely wiping stats (weird cutoff value bug)
+- Fixed `/wipestats` logging wipes where no DataBase tickets were deleted
+
+
+
+
 ## [v1.2.3](https://github.com/0bi0/TicketAssistant/commit/c7a1a973a9fa5fc22939643a9408b29ce713f13b) - 13/03/2026
 
 

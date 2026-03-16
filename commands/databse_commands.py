@@ -13,29 +13,50 @@ from cogs.permissions import (has_database_permission)
 # The wipe command can be useful for databse resets
 # and for other miscellaneous reasons
 
-@app_commands.command(name="wipestats", description="Permanently delete ticket data from a specific period")
-@app_commands.describe(days="Wipe data older than this many days (e.g. 30d)")
+@app_commands.command(name="wipestats", description="Permanently delete ticket data from the selected period")
+@app_commands.describe(days="Wipe ticket data from the last this many days (e.g. 30)")
 async def wipestats(interaction: discord.Interaction, days: int):
     # DataBase Permission check
     if not has_database_permission(interaction.user):
         await interaction.response.send_message("❌ You do not have permission to wipe data.", ephemeral=True)
         return
 
-    # Calculates the cutoff timestamp
-    cutoff_time = int(time.time()) - (days * 86400)
+    if days <= 0:
+        await interaction.response.send_message("❌ Days must be greater than 0.", ephemeral=True)
+        return
+
+    # Calculates the start timestamp for the requested period
+    period_start = int(time.time()) - (days * 86400)
 
     try:
-        await interaction.client.db.execute("""
-            DELETE FROM messages 
-            WHERE timestamp <= ?
-        """, (cutoff_time,))
+        count_cursor = await interaction.client.db.execute("""
+            SELECT COUNT(*)
+            FROM tickets
+            WHERE opened_at >= ?
+        """, (period_start,))
+        count_row = await count_cursor.fetchone()
+        deleted_count = count_row[0] if count_row else 0
 
-        cursor = await interaction.client.db.execute("""
-            DELETE FROM tickets 
-            WHERE opened_at <= ?
-        """, (cutoff_time,))
-        
-        deleted_count = cursor.rowcount
+        if deleted_count == 0:
+            await interaction.response.send_message(
+                f"ℹ️ No tickets found in the last **{days}** days. Nothing was deleted.",
+                ephemeral=True,
+            )
+            return
+
+        await interaction.client.db.execute("""
+            DELETE FROM messages
+            WHERE channel_id IN (
+                SELECT channel_id
+                FROM tickets
+                WHERE opened_at >= ?
+            )
+        """, (period_start,))
+
+        await interaction.client.db.execute("""
+            DELETE FROM tickets
+            WHERE opened_at >= ?
+        """, (period_start,))
 
         # Logs the wipe action in the DB
         await interaction.client.db.execute("""
@@ -54,7 +75,7 @@ async def wipestats(interaction: discord.Interaction, days: int):
         await interaction.response.send_message(
             f"✅ Database Wipe Successful!\n"
             f"Removed **{deleted_count}** tickets and associated messages "
-            f"older than **{days}** days.",
+            f"from the last **{days}** days.",
             ephemeral=True
         )
 
