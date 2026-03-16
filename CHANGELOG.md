@@ -1,4 +1,4 @@
-## [v1.3.0](https://placeholder.com) - 16/03/2026
+## [v1.3.0](https://github.com/0bi0/TicketAssistant/commit/6dd487ffbbc4357ddacc5367c988d1adcecd51fc) - 16/03/2026
 
 
 ### Features
