@@ -5,5 +5,7 @@ commands/__pycache__
 main/__pycache__
 cogs/events/__pycache__
 cogs/lists/__pycache__
+development/__pycache__
+development/dev/__pycache__
 .bot.lock
 .env
