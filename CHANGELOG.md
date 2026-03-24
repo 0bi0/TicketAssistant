@@ -10,7 +10,7 @@
 ### Bug fixes
 
 - Added PowerShell activation-policy workaround guidance for first-time Windows setup
-- Fixed cross-platform virtual environment activation compatability (Linux incompatibility)
+- Fixed cross-platform virtual environment activation compatibility (Linux incompatibility)
 - Fixed GitHub pages automatically deploying on every commit outside of `docs/index.html`
 
 
