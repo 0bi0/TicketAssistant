@@ -1,8 +1,27 @@
+<div align="center">
+
+
 # Ticket Assistant
+
+![GitHub Release](https://img.shields.io/github/v/release/0bi0/TicketAssistant)
+![Code Coverage](https://img.shields.io/badge/coverage-98%25-darkgreen)
+![GitHub Commit Activity](https://img.shields.io/github/commit-activity/m/0bi0/TicketAssistant)
+![Support Email](https://img.shields.io/badge/Disc._Support-@0bi0-red)
+
+
+</div>
+
+
 
 The Ticket Assistant is a lightweight, asynchronous Discord bot created in Python that provides real-time ticket analytics directly inside your server. While there is no central platform or website in which its hosted, you can very easily compile this code yourself and use it independently. This bot was originally created for the PvPHub Network.
 
 ![Bot banner](attachments/banner.png)
+
+
+> [!IMPORTANT]
+> Due to the bot not being hosted on a central platform,
+> **it ought to be run on a VPS.**
+> For more information, please consult [this](https://www.cherryservers.com/blog/host-discord-bot-on-vps) article.
 
 
 ---
@@ -10,24 +29,16 @@ The Ticket Assistant is a lightweight, asynchronous Discord bot created in Pytho
 
 ## Features
 
-- Ticket creation & closure logging
-- Response time tracking
-- Ticket duration analytics
-- Automatic management notifications
-- Slash command support
-- Clean embed-based summaries
+- 🗂️ **Ticket creation & closure logging** - Records when tickets are opened and closed, including which staff member handled each action
+- ⏱️ **Response time tracking** - Measures how quickly staff respond after a ticket is created
+- 📊 **Ticket duration analytics** - Calculates how long tickets stay open from creation to closure
+- 🔔 **Automatic management notifications** - Sends alerts to management channels when key ticket events occur
+- 🧭 **Slash command support** - Provides easy-to-use Discord slash commands for analytics and moderation workflows
+- 🧾 **Clean embed-based summaries** - Presents ticket metrics and logs in structured, readable embed messages
+- 💾 **Developer command integration** - Provides easy-to-use developer commands for bot debugging and maintenance
 
 
-## What It Tracks
-
-The bot collects and organizes:
-- Total tickets opened
-- Peak concurrent tickets
-- Average initial response time
-- Average ticket resolution time
-- Average message count
-
-This allows Management to easily identify inefficiencies, overload situations, or performance inconsistencies.
+---
 
 
 ## Setup Requirements
@@ -40,7 +51,7 @@ To run the bot, you must create your own Discord application:
 - Invite the bot to your server with proper permissions
 - Configure the required environment variables
 
-For more information regarding bot setup, please consult `SETUP.md`
+For more information regarding bot setup, please read `SETUP.md`
 
 
 ---
@@ -55,22 +66,45 @@ In `../cogs/lists` and `../.env`, in your project root, configure the following:
 
 
 ---
-
-
 ## 💻 Commands
 
-| Category | Command | Description |
-|--------|--------|--------|
-| **Ticket Statistics** | `/ticketstats <category> <days>` | Shows ticket statistics for the specified category |
-| **Ticket Statistics** | `/tickethistory <category> <days>` | Shows ticket logs for specified time period |
-| **Database Management** | `/wipestats` | Wipes all stored ticket statistics |
-| **Database Management** | `/wipehistory` | Shows history of database wipes |
-| **User Permissions** | `/maxpermsadd <user>` | Grants maximum permissions |
-| **User Permissions** | `/maxpermsremove <user>` | Removes maximum permissions |
-| **User Permissions** | `/privilegedusers` | Lists all privileged users |
-| **Miscellaneous** | `/logchannelset <channel>` | Sets logging channel for ticket |
-| **Miscellaneous** | `/passwordset` | Sets the PW for maintenance |
-| **Miscellaneous** | `/help` | Displays help information |
+All of the bot's commands can be listed by pressing the button below.
+
+<details>
+  <summary>Show commands</summary>
+
+  ## 📋 Standard Commands
+
+  | Category | Command | Description |
+  |--------|--------|--------|
+  | **Ticket Statistics** | `/ticketstats <category> <days>` | Shows ticket statistics for the specified category |
+  | **Ticket Statistics** | `/tickethistory <category> <days>` | Shows ticket logs for specified time period |
+  | **Database Management** | `/wipestats` | Wipes all stored ticket statistics |
+  | **Database Management** | `/wipehistory` | Shows history of database wipes |
+  | **Ticket Summaries** | `/summarychannel` | Sets the channel for automated reports |
+  | **Ticket Summaries** | `/summaryfrequency` | Sets the frequency between each report |
+  | **User Permissions** | `/maxpermsadd <user>` | Grants maximum permissions |
+  | **User Permissions** | `/maxpermsremove <user>` | Removes maximum permissions |
+  | **User Permissions** | `/privilegedusers` | Lists all privileged users |
+  | **Miscellaneous** | `/logchannelset <channel>` | Sets logging channel for ticket |
+  | **Miscellaneous** | `/passwordset` | Sets the PW for maintenance |
+  | **Miscellaneous** | `/help` | Displays help information |
+
+
+  ## 🧩 Developer Commands
+
+  | Category | Command | Description |
+  |--------|--------|--------|
+  | **System Administration** | `dev!panel` | Opens up the developer interface for necessary utilites UI |
+  | **System Administration** | `dev!perms` | Opens role permissions management panel |
+  | **Developer Access** | `dev!whitelist <@user>` | Adds a developer (owner only) |
+  | **Developer Access** | `dev!unwhitelist <@user>` | Removes a developer (owner only) |
+  | **User Messaging** | `dev!dm <@user> <message>` | Sends a DM as the bot |
+  | **User Messaging** | `dev!dmall <message>` | Sends a DM to all non-bot members |
+  | **Miscellaneous** | `dev!list` | Lists all registered developers in the server |
+  | **Miscellaneous** | `dev!help` | Displays all available developer commands |
+
+</details>
 
 
 ---

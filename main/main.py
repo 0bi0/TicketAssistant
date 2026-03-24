@@ -52,6 +52,7 @@ from development.runtime_logs import install_print_hook
 
 from main.command_registry import register_commands
 from main.bot import client, tree, TICKETS_BOT_ID
+from commands.summary_commands import initialize_summary_reporting
 
 
 async def _maintenance_interaction_check(interaction: discord.Interaction) -> bool:
@@ -295,8 +296,11 @@ async def on_ready():
     if row:
         LOG_CHANNEL_ID[0] = row[0]
 
-    # discord.py 2.4 in this environment does not expose add_check on CommandTree.
-    # Assigning interaction_check keeps a global gate for all app commands.
+    # Initialize automated management summary feature state
+    await initialize_summary_reporting()
+
+    # discord.py 2.4 in this environment does not expose add_check on CommandTree
+    # Assigning interaction_check keeps a global gate for all app commands
     tree.interaction_check = _maintenance_interaction_check
 
     await client.db.commit()

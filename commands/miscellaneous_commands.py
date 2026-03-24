@@ -45,6 +45,8 @@ SLASH_COMMAND_GROUPS: dict[str, tuple[str, ...]] = {
         "help",
         "passwordset",
         "logchannelset",
+        "summarychannel",
+        "summaryfrequency",
     ),
 }
 
