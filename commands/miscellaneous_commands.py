@@ -8,16 +8,24 @@ from cogs.permissions import PERMISSION_ROLE_CATEGORY_LABELS, get_permission_rol
 
 EMBED_DIVIDER = "––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––"
 
-DEV_COMMAND_LINES: tuple[str, ...] = (
-    "- `dev!help` - General help for developer commands",
-    "- `dev!panel` - Opens the live developer control panel",
-    "- `dev!perms` - Opens role permissions management panel",
-    "- `dev!list` - Lists all registered developers in the server",
-    "- `dev!whitelist <@user>` - Adds a developer (owner only)",
-    "- `dev!unwhitelist <@user>` - Removes a developer (owner only)",
-    "- `dev!dm <@user> <message>` - Sends a DM as the bot",
-    "- `dev!dmall <message>` - Sends a DM to all non-bot members",
-)
+DEV_COMMAND_GROUPS: dict[str, tuple[tuple[str, str], ...]] = {
+    "Utility commands": (
+        ("dev!help", "General help for developer commands"),
+        ("dev!list", "Lists all registered developers in the server"),
+    ),
+    "Panel commands": (
+        ("dev!panel", "Opens the live developer control panel"),
+        ("dev!perms", "Opens role permissions management panel"),
+    ),
+    "Access commands": (
+        ("dev!whitelist <@user>", "Adds a developer (owner only)"),
+        ("dev!unwhitelist <@user>", "Removes a developer (owner only)"),
+    ),
+    "Messaging commands": (
+        ("dev!dm <@user> <message>", "Sends a DM as the bot"),
+        ("dev!dmall <message>", "Sends a DM to all non-bot members"),
+    ),
+}
 
 SLASH_COMMAND_GROUPS: dict[str, tuple[str, ...]] = {
     "Ticket Stat commands": (
@@ -140,7 +148,7 @@ def _build_listcommands_embed(tree: app_commands.CommandTree[discord.Client]) ->
     )
 
     embed.add_field(name="📋  Standard Commands", value=(
-        "All standard commands are listed below.\n"
+        "Standard commands and general bot utilities.\n"
         "‎\n"
     ), inline=False)
 
@@ -164,15 +172,20 @@ def _build_listcommands_embed(tree: app_commands.CommandTree[discord.Client]) ->
     if uncategorized:
         embed.add_field(name="Other slash commands", value="\n".join(uncategorized), inline=False)
 
-    dev_lines = list(DEV_COMMAND_LINES)
-    if dev_lines:
+    if DEV_COMMAND_GROUPS:
         embed.add_field(name=" ", value=EMBED_DIVIDER, inline=False)
-        dev_section_value = (
-            "Developer-prefixed maintenance and development commands.\n"
-            "\u200e\n"
-            + "\n".join(dev_lines)
+        embed.add_field(
+            name="🧩  Developer Commands",
+            value=(
+                "Developer-prefixed maintenance and development commands.\n"
+                "‎\n"
+            ),
+            inline=False,
         )
-        embed.add_field(name="🧩  Developer Commands", value=dev_section_value, inline=False)
+
+        for group_name, group_commands in DEV_COMMAND_GROUPS.items():
+            lines = [f"・ `{usage}` - {description}" for usage, description in group_commands]
+            embed.add_field(name=group_name, value="\n".join(lines), inline=False)
 
     embed.add_field(name=" ", value=EMBED_DIVIDER, inline=False)
     embed.set_footer(text="Ticket Assistant | Made by 0bi0")
