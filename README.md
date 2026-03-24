@@ -29,13 +29,13 @@ The Ticket Assistant is a lightweight, asynchronous Discord bot created in Pytho
 
 ## Features
 
-- 🗂️ **Ticket creation & closure logging** - Records when tickets are opened and closed, including which staff member handled each action
+- 🗂️ **Ticket creation & closure logging** - Records when tickets are opened and closed
 - ⏱️ **Response time tracking** - Measures how quickly staff respond after a ticket is created
 - 📊 **Ticket duration analytics** - Calculates how long tickets stay open from creation to closure
 - 🔔 **Automatic management notifications** - Sends alerts to management channels when key ticket events occur
-- 🧭 **Slash command support** - Provides easy-to-use Discord slash commands for analytics and moderation workflows
+- 🧭 **Slash command support** - Provides easy-to-use Discord slash commands for analytics and workflows
 - 🧾 **Clean embed-based summaries** - Presents ticket metrics and logs in structured, readable embed messages
-- 💾 **Developer command integration** - Provides easy-to-use developer commands for bot debugging and maintenance
+- 💾 **Developer command integration** - Provides developer commands for bot debugging and maintenance
 
 
 ---
