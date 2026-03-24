@@ -40,10 +40,17 @@ _DEFAULT_PERMISSION_ROLE_VALUES: dict[str, set[str]] = {
 }
 
 
+# ===| Permission role management |===
+#
+# The functions below manage the role names stored in the lists/dicts defined above, which are used for permission checks throughout the bot. 
+# This allows for dynamic updates to permissions without needing to restart or edit code, and also provides a single source of truth for what 
+# roles are considered privileged in each category.
+
 def is_valid_permission_role_category(category: str) -> bool:
     return category in _PERMISSION_ROLE_TARGETS
 
 
+# Returns the current role names for a category, used for display and validation purposes
 def get_permission_roles_for_category(category: str) -> list[str]:
     target = _PERMISSION_ROLE_TARGETS.get(category)
     if target is None:
@@ -56,10 +63,12 @@ def get_permission_roles_for_category(category: str) -> list[str]:
     return sorted(target)
 
 
+# Returns the default role names for a category, used for resetting to defaults and for reference in help text
 def get_default_permission_roles_for_category(category: str) -> set[str]:
     return set(_DEFAULT_PERMISSION_ROLE_VALUES.get(category, set()))
 
 
+# Applies a list of role names to the appropriate target based on the category
 def _apply_roles_to_target(category: str, roles: Iterable[str]) -> None:
     target = _PERMISSION_ROLE_TARGETS[category]
     cleaned = [r.strip() for r in roles if isinstance(r, str) and r.strip()]
@@ -81,6 +90,7 @@ def _apply_roles_to_target(category: str, roles: Iterable[str]) -> None:
     target.update(cleaned)
 
 
+# Adds a role to a permission role category, returns True if successful
 def add_permission_role_to_category(category: str, role_name: str) -> bool:
     if category not in _PERMISSION_ROLE_TARGETS:
         return False
@@ -98,6 +108,7 @@ def add_permission_role_to_category(category: str, role_name: str) -> bool:
     return True
 
 
+# Returns False if the category doesn't exist, the role name is invalid, or the role isn't currently in the category
 def remove_permission_role_from_category(category: str, role_name: str) -> bool:
     if category not in _PERMISSION_ROLE_TARGETS:
         return False
@@ -115,11 +126,13 @@ def remove_permission_role_from_category(category: str, role_name: str) -> bool:
     return True
 
 
+# Resets all permission role categories to their default values
 def reset_permission_roles_to_defaults() -> None:
     for category, default_values in _DEFAULT_PERMISSION_ROLE_VALUES.items():
         _apply_roles_to_target(category, default_values)
 
 
+# Loads overrides from database and applies them on top of the defaults
 def apply_permission_role_overrides(
     rows: list[tuple[str, str, str]],
 ) -> None:

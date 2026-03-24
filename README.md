@@ -50,11 +50,6 @@ For more information regarding bot setup, please consult `SETUP.md`
 
 In `../cogs/lists` and `../.env`, in your project root, configure the following:
 - **DISCORD_TOKEN**="your_discord_bot_token"
-- **SUPPORT_ROLES**="your_support_representatives"
-- **STATS_ALLOWED_ROLES**="ticket_manager_roles"
-- **DATABASE_PERMS**="databse_interaction_perms"
-- **MANAGE_USER_PERMS**="manage_users_perms"
-- **TICKET_CATEGORIES**="names_of_ticket_categories"
 - **OPEN_MARKERS**="ticket_bot_opening_messages"
 - **CLOSE_MARKERS**="ticket_bot_closing_messages"
 
@@ -74,6 +69,8 @@ In `../cogs/lists` and `../.env`, in your project root, configure the following:
 | **User Permissions** | `/maxpermsadd <user>` | Grants maximum permissions |
 | **User Permissions** | `/maxpermsremove <user>` | Removes maximum permissions |
 | **User Permissions** | `/privilegedusers` | Lists all privileged users |
+| **Miscellaneous** | `/logchannelset` | Sets the ticket logging channel |
+| **Miscellaneous** | `/passwordset` | Sets the PW for maintenance |
 | **Miscellaneous** | `/help` | Displays help information |
 
 
