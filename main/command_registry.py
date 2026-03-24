@@ -5,7 +5,7 @@ from discord import app_commands
 from commands.databse_commands import wipestats, wipehistory
 from commands.history_comands import tickethistory
 from commands.miscellaneous_commands import help, listcommands, viewpermissions
-from commands.privileged_user_commands import maxpermsadd, maxpermsremove, privilegedusers
+from commands.privileged_user_commands import maxpermsadd, maxpermsremove, passwordset, privilegedusers
 from commands.log_channel_commands import logchannelset
 
 
@@ -19,6 +19,7 @@ def register_commands(tree: app_commands.CommandTree[discord.Client]) -> None:
     # tree.add_command(viewpermissions)
     tree.add_command(maxpermsadd)
     tree.add_command(maxpermsremove)
+    tree.add_command(passwordset)
     tree.add_command(privilegedusers)
     tree.add_command(logchannelset)
     # tree.add_command(listcommands)

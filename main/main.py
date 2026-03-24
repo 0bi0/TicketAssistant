@@ -41,13 +41,34 @@ from cogs.permissions import (
     PRIVILEGED_USERS,
     TICKET_CATEGORIES,
     LOG_CHANNEL_ID,
+    apply_permission_role_overrides,
 
     has_stats_permission,
 )
 
+from development.dev_auth import refresh_dev_users
+from development.maintenance import MAINTENANCE_NOTICE, is_maintenance_enabled, load_maintenance_state_cache
+from development.runtime_logs import install_print_hook
 
 from main.command_registry import register_commands
 from main.bot import client, tree, TICKETS_BOT_ID
+
+
+async def _maintenance_interaction_check(interaction: discord.Interaction) -> bool:
+    if not interaction.guild:
+        return True
+
+    if interaction.user.id == interaction.guild.owner_id:
+        return True
+
+    if not is_maintenance_enabled(interaction.guild.id):
+        return True
+
+    if not interaction.response.is_done():
+        await interaction.response.send_message(MAINTENANCE_NOTICE, ephemeral=True)
+    else:
+        await interaction.followup.send(MAINTENANCE_NOTICE, ephemeral=True)
+    return False
 
 
 
@@ -58,6 +79,9 @@ LOCK_PATH = os.path.join(BASE_DIR, ".bot.lock")
 
 # Load environment variables from the project root .env file.
 load_dotenv(os.path.join(BASE_DIR, ".env"))
+
+# Mirror console output into runtime log buffer for dev panel log viewing.
+install_print_hook()
 
 
 
@@ -124,6 +148,7 @@ async def on_ready():
 
     # Flag to prevent multiple on_ready executions during startup (this shit really pisses me off)
     client._startup_complete = True
+    client._started_at = int(time.time())
 
     # Connect ONCE
     client.db = await aiosqlite.connect(DB_PATH)
@@ -192,8 +217,47 @@ async def on_ready():
         )
     """)
 
+    # Table for developer-prefixed commands (dev!*)
+    await client.db.execute("""
+        CREATE TABLE IF NOT EXISTS developer_users(
+            user_id INTEGER PRIMARY KEY
+        )
+    """)
+
+    # Table for owner-defined maintenance password.
+    await client.db.execute("""
+        CREATE TABLE IF NOT EXISTS dev_maintenance_passwords(
+            guild_id INTEGER PRIMARY KEY,
+            password_salt TEXT NOT NULL,
+            password_hash TEXT NOT NULL,
+            updated_by INTEGER NOT NULL,
+            updated_at INTEGER NOT NULL
+        )
+    """)
+
+    # Table for maintenance enabled/disabled state.
+    await client.db.execute("""
+        CREATE TABLE IF NOT EXISTS dev_maintenance_state(
+            guild_id INTEGER PRIMARY KEY,
+            enabled INTEGER NOT NULL CHECK(enabled IN (0, 1)),
+            updated_by INTEGER NOT NULL,
+            updated_at INTEGER NOT NULL
+        )
+    """)
+
+    # Table for dev-managed permission role overrides
+    await client.db.execute("""
+        CREATE TABLE IF NOT EXISTS dev_permission_role_overrides(
+            category TEXT NOT NULL,
+            role_name TEXT NOT NULL,
+            action TEXT NOT NULL CHECK(action IN ('add', 'remove')),
+            PRIMARY KEY(category, role_name)
+        )
+    """)
+
     # Cleanup invalid legacy entries
     await client.db.execute("DELETE FROM privileged_users WHERE user_id <= 0")
+    await client.db.execute("DELETE FROM developer_users WHERE user_id <= 0")
 
     # Load privileged users list and clears the in-memory set first to avoid duplicates on reconnects
     PRIVILEGED_USERS.clear()
@@ -203,6 +267,19 @@ async def on_ready():
     
         # Adds privileged user IDs to the in-memory set
         PRIVILEGED_USERS.add(row[0])
+
+    # Load DB-backed developer cache (guild owners are implicitly handled at runtime)
+    await refresh_dev_users(client.db)
+
+    # Load per-guild maintenance state into runtime cache.
+    await load_maintenance_state_cache(client.db)
+
+    # Load DB-backed permission role overrides into runtime permission sets
+    cursor = await client.db.execute(
+        "SELECT category, role_name, action FROM dev_permission_role_overrides"
+    )
+    permission_override_rows = await cursor.fetchall()
+    apply_permission_role_overrides(permission_override_rows)
 
     # Table for persisting the ticket log channel
     await client.db.execute("""
@@ -217,6 +294,10 @@ async def on_ready():
     row = await cursor.fetchone()
     if row:
         LOG_CHANNEL_ID[0] = row[0]
+
+    # discord.py 2.4 in this environment does not expose add_check on CommandTree.
+    # Assigning interaction_check keeps a global gate for all app commands.
+    tree.interaction_check = _maintenance_interaction_check
 
     await client.db.commit()
     await tree.sync()
@@ -546,6 +627,8 @@ async def ticketstats(
 # Import event handlers so their @client.event decorators register (ChatGPT told me to do this, idk man, it's 2AM)
 import cogs.events.message_detection
 import cogs.events.channel_deletion
+import cogs.events.guild_join
+import development.dev_commands
 
 
 

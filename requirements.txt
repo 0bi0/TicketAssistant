@@ -1,4 +1,6 @@
+aiosqlite
 discord.py
 matplotlib
-aiosqlite
 python-dotenv
+msvcrt
+fcntl

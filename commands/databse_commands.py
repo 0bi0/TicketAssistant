@@ -4,7 +4,7 @@ from discord import app_commands
 from discord import client
 import time
 
-from cogs.permissions import (has_database_permission)
+from cogs.permissions import has_database_permission
 
 
 

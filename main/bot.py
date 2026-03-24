@@ -20,5 +20,6 @@ tree = app_commands.CommandTree(client)
 
 # TicketsV2 UserID
 TICKETS_BOT_ID = 1325579039888511056
-# NOTE: You can replace this ID with any other Discord Ticket bot's ID if you
-#       wish to use another bot, rather than the TicketsV2 
+# NOTE: As of v1.3.0, this ID cannot be changed, as in doing so, you would be breaking the
+#       dashboard linking - which is hard-coded - in message_detection.py. This is subject
+#       to be fixed in a future update, but for now, please do not change this ID.

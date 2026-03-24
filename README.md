@@ -40,7 +40,7 @@ To run the bot, you must create your own Discord application:
 - Invite the bot to your server with proper permissions
 - Configure the required environment variables
 
-For more information regarding bot setup, please consult `SETUP.md` 
+For more information regarding bot setup, please consult `SETUP.md`
 
 
 ---

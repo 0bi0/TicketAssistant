@@ -2,11 +2,27 @@
 
 This guide explains how to set up this bot from scratch for your own Discord server.
 
+
+
+## Quick setup checklist
+
+If you want the shortest possible path to first run:
+
+1. Install Python 3.11+.
+2. Create and activate a virtual environment.
+3. Install `requirements.txt`.
+4. Create `.env` with `DISCORD_BOT_TOKEN`.
+5. Configure values in `cogs/lists/` to match your server.
+6. Start the bot with `python -m main.main`.
+7. Run `/logchannelset` in Discord.
+
+
+
 ## What this bot does
 
 This project is not a ticket system by itself. It watches ticket activity from another ticket bot, stores ticket data in a local SQLite database, and exposes slash commands for stats, history, permissions, and log-channel management.
 
-By default, it is configured to work with TicketsBot/TicketsV2-style embeds and transcript URLs.
+By default, it is configured to work with TicketsV2-style embeds and transcript URLs.
 
 
 
@@ -45,6 +61,19 @@ py -3.11 -m venv .venv
 .\.venv\Scripts\Activate.ps1
 ```
 
+If PowerShell blocks script activation, run this once in the same shell and retry:
+
+```powershell
+Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
+```
+
+On macOS/Linux:
+
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+```
+
 If `py -3.11` is not available, use the Python launcher/version installed on your machine.
 
 
@@ -67,11 +96,11 @@ This project depends on:
 
 
 
-## 5. Create the `.env` file in the project root
+## 5. Edit the `.env` file in the project root
 
-Create a file named `.env` in the main project root, on the same level as `README.md` and `requirements.txt`.
+In the main project root, on the same level as `README.md` and `requirements.txt`, edit the `.env` file.
 
-Add this:
+Specifically, edit this:
 
 ```env
 DISCORD_BOT_TOKEN=your_bot_token_here
@@ -123,20 +152,16 @@ Depending on how your server is configured, you may also need to allow it to vie
 
 ## 8. Configure the ticket categories and role names
 
-This project does not store most role/category configuration in `.env`. It reads those values directly from Python files in `cogs/lists/`.
+This project does not store most role/category configuration in `.env`.
+
+Permission roles are managed with the `dev!perms` command.
+
+For non-permission matching values, it still reads directly from Python files in `cogs/lists/`.
 
 Edit these files so the names exactly match your Discord server:
 
 - `cogs/lists/ticket_categories.py`
   - Maps slash-command category keys to actual Discord category names
-- `cogs/lists/support_roles.py`
-  - Roles treated as support staff for message tracking and ticket history
-- `cogs/lists/allowed_roles.py`
-  - Roles allowed to run ticket stats commands
-- `cogs/lists/database_perms.py`
-  - Roles allowed to wipe the database and view wipe history
-- `cogs/lists/manage_user_perms.py`
-  - Roles allowed to manage privileged users and set the ticket log channel
 - `cogs/lists/opening_messages.py`
   - Text markers used to detect ticket-open embeds
 - `cogs/lists/closing_messages.py`
@@ -144,6 +169,7 @@ Edit these files so the names exactly match your Discord server:
 
 Notes:
 
+- Use `dev!perms` to add/remove roles for permission-gated commands.
 - The names must match your Discord role names and category names exactly.
 - `VARIABLES.md` is only a reference document. Editing it does not change runtime behavior.
 
@@ -194,6 +220,7 @@ On startup, the bot registers and syncs its slash commands. Give Discord a short
 
 The available commands include:
 
+- `/help`
 - `/ticketstats`
 - `/tickethistory`
 - `/logchannelset`
@@ -202,7 +229,12 @@ The available commands include:
 - `/maxpermsadd`
 - `/maxpermsremove`
 - `/privilegedusers`
-- `/help`
+- `/logchannelset`
+- `/passwordset`
+
+Note:
+
+- As of [v1.4.0], `/help` replaces the legacy `/viewpermissions` and `/listcommands` commands.
 
 
 
@@ -310,3 +342,5 @@ For long-term use, run this bot on a machine or VPS that stays online and keep t
 - `tickets.db`
 
 If you change role names, category names, or ticket bot behavior in your server, update the corresponding files in `cogs/lists/` and restart the bot.
+
+After updates, re-run `/help` and `/tickethistory` to confirm command visibility and logging behavior still match your server setup.

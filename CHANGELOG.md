@@ -1,3 +1,21 @@
+## [1.4.0](placeholder) - 24/03/2026
+
+
+### Features
+
+- Added developer commands for enhanced bot infrastructure
+- Updated setup documentation with a quick-start checklist
+- Added cross-platform virtual environment activation instructions
+- Documented `/help` as the unified command for command/permission discovery
+
+
+### Bug fixes
+
+- Added PowerShell activation-policy workaround guidance for first-time Windows setup
+
+
+
+
 ## [v1.3.0](https://github.com/0bi0/TicketAssistant/commit/6dd487ffbbc4357ddacc5367c988d1adcecd51fc) - 16/03/2026
 
 

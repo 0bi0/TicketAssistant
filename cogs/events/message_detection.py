@@ -17,6 +17,7 @@ from cogs.permissions import(
 
 from cogs.lists.opening_messages import OPEN_MARKERS
 from cogs.lists.closing_messages import CLOSE_MARKERS
+from development.dev_commands import handle_dev_command_message
 
 
 
@@ -384,6 +385,10 @@ async def get_readable_channel_name(message: discord.Message) -> str:
 @client.event
 async def on_message(message: discord.Message):
     now = int(time.time())
+
+    # Run developer-prefixed commands before ticket logging/event parsing.
+    if await handle_dev_command_message(message):
+        return
 
     # Log messages that happen inside ticket channels
     if message.guild and isinstance(message.channel, discord.TextChannel):

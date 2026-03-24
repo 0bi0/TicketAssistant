@@ -6,7 +6,7 @@ import time
 import discord
 from discord import app_commands
 
-from cogs.permissions import SUPPORT_ROLES, TICKET_CATEGORIES
+from cogs.permissions import has_tickethistory_permission, TICKET_CATEGORIES
 
 
 
@@ -207,8 +207,8 @@ async def tickethistory(
         await interaction.response.send_message("❌ You can only use this command in a server.", ephemeral=True)
         return
 
-    # Only users with a support role can use this command.
-    if not any(role.name in SUPPORT_ROLES for role in interaction.user.roles):
+    # Restricts to Administrator+ and privileged users
+    if not has_tickethistory_permission(interaction.user):
         await interaction.response.send_message("❌ You do not have permission to view ticket history.", ephemeral=True)
         return
 
