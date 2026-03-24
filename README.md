@@ -21,7 +21,8 @@ The Ticket Assistant is a lightweight, asynchronous Discord bot created in Pytho
 > [!IMPORTANT]
 > Due to the bot not being hosted on a central platform,
 > **it ought to be run on a VPS.**
-> For more information, please consult [this](https://www.cherryservers.com/blog/host-discord-bot-on-vps) article.
+> For more information regarding how you can set the bot up for yourself, 
+> please consult [this](https://www.cherryservers.com/blog/host-discord-bot-on-vps) article.
 
 
 ---
