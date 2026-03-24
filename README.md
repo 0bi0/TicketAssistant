@@ -63,14 +63,13 @@ In `../cogs/lists` and `../.env`, in your project root, configure the following:
 |--------|--------|--------|
 | **Ticket Statistics** | `/ticketstats <category> <days>` | Shows ticket statistics for the specified category |
 | **Ticket Statistics** | `/tickethistory <category> <days>` | Shows ticket logs for specified time period |
-| **Ticket Statistics** | `/logchannelset <channel>` | Sets logging channel for ticket
+| **Ticket Statistics** | `/logchannelset <channel>` | Sets logging channel for ticket |
+| **Ticket Statistics** | `/passwordset` | Sets the PW for maintenance |
 | **Database Management** | `/wipestats` | Wipes all stored ticket statistics |
 | **Database Management** | `/wipehistory` | Shows history of database wipes |
 | **User Permissions** | `/maxpermsadd <user>` | Grants maximum permissions |
 | **User Permissions** | `/maxpermsremove <user>` | Removes maximum permissions |
 | **User Permissions** | `/privilegedusers` | Lists all privileged users |
-| **Miscellaneous** | `/logchannelset` | Sets the ticket logging channel |
-| **Miscellaneous** | `/passwordset` | Sets the PW for maintenance |
 | **Miscellaneous** | `/help` | Displays help information |
 
 
