@@ -1,17 +1,17 @@
-## [1.4.0](placeholder) - 24/03/2026
+## [1.4.0](https://github.com/0bi0/TicketAssistant/commit/ffcb2c9d4da4b88740d6619e4cbd9468ed4fe9a8) - 24/03/2026
 
 
 ### Features
 
 - Added developer commands for enhanced bot infrastructure
 - Updated setup documentation with a quick-start checklist
-- Added cross-platform virtual environment activation instructions
-- Documented `/help` as the unified command for command/permission discovery
 
 
 ### Bug fixes
 
 - Added PowerShell activation-policy workaround guidance for first-time Windows setup
+- Fixed cross-platform virtual environment activation compatability (Linux incompatibility)
+- Fixed GitHub pages automatically deploying on every commit outside of `docs/index.html`
 
 
 
