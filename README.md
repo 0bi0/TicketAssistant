@@ -96,7 +96,7 @@ All of the bot's commands can be listed by pressing the button below.
 
   | Category | Command | Description |
   |--------|--------|--------|
-  | **System Administration** | `dev!panel` | Opens up the developer interface for necessary utilites UI |
+  | **System Administration** | `dev!panel` | Opens up the developer interface for necessary utilites |
   | **System Administration** | `dev!perms` | Opens role permissions management panel |
   | **Developer Access** | `dev!whitelist <@user>` | Adds a developer (owner only) |
   | **Developer Access** | `dev!unwhitelist <@user>` | Removes a developer (owner only) |

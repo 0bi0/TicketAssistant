@@ -202,35 +202,64 @@ def _build_summary_message(
     frequency_minutes: int,
     payload: dict[str, object] | None,
 ) -> str:
-    timestamp_text = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-    lines = [
-        f"Management ticket summary for {guild.name}",
-        f"Generated at: {timestamp_text}",
-        f"Window: last {_format_frequency_minutes(frequency_minutes)}",
-    ]
+    if frequency_minutes % (24 * 60) == 0:
+        period_amount = frequency_minutes // (24 * 60)
+        period_label = "day" if period_amount == 1 else "days"
+        period_text = f"{period_amount} {period_label}"
+    elif frequency_minutes % 60 == 0:
+        period_amount = frequency_minutes // 60
+        period_label = "hour" if period_amount == 1 else "hours"
+        period_text = f"{period_amount} {period_label}"
+    else:
+        period_amount = frequency_minutes
+        period_label = "minute" if period_amount == 1 else "minutes"
+        period_text = f"{period_amount} {period_label}"
 
     if payload is None:
-        lines.append("No ticket updates were recorded in this window.")
-        return "\n".join(lines)
+        counts = {
+            "General Tickets": 0,
+            "Player-Reports": 0,
+            "Appeals": 0,
+        }
+        total_tickets = 0
+        peak_open = 0
+        avg_first = 0.0
+        avg_rep_response = 0.0
+        avg_handle = 0.0
+        handled_total = 0
+    else:
+        counts = payload["category_counts"]
+        total_tickets = int(payload["total_tickets"])
+        peak_open = int(payload["peak_open"])
+        avg_first = float(payload["avg_first"])
+        avg_rep_response = float(payload["avg_rep_response"])
+        avg_handle = float(payload["avg_handle"])
+        handled_total = int(payload["handled_total"])
 
-    counts = payload["category_counts"]
-    lines.extend(
+    return "\n".join(
         [
-            f"Total tickets opened: {int(payload['total_tickets'])}",
+            "Hey everyone!",
+            "",
+            "Ticket Assistant here, submitting my report!",
+            "",
             (
-                "By category: "
-                f"General {counts.get('General Tickets', 0)} | "
-                f"Reports {counts.get('Player-Reports', 0)} | "
-                f"Appeals {counts.get('Appeals', 0)}"
+                f"Over the past {period_text}, a lot has happened in {guild.name}. "
+                "An abundance of tickets were handled, ranging from General Tickets, "
+                "to Player-Reports, to even Appeals! The report is broken down below:"
             ),
-            f"Handled tickets: {int(payload['handled_total'])}",
-            f"Peak concurrent open: {int(payload['peak_open'])}",
-            f"Average initial response: {_format_seconds(float(payload['avg_first']))}",
-            f"Average staff response: {_format_seconds(float(payload['avg_rep_response']))}",
-            f"Average handling duration: {_format_seconds(float(payload['avg_handle']))}",
+            "",
+            f"- Total Tickets: {total_tickets}",
+            f"- Peak Concurrent: {peak_open}",
+            f"- Average Initial Response: {_format_seconds(avg_first)}",
+            f"- Average Response Time: {_format_seconds(avg_rep_response)}",
+            f"- Average Duration: {_format_seconds(avg_handle)}",
+            f"- Handled Tickets: {handled_total}",
+            f"- Category Breakdown: General {counts.get('General Tickets', 0)}, Reports {counts.get('Player-Reports', 0)}, Appeals {counts.get('Appeals', 0)}",
+            "",
+            "That's all for now,",
+            "Ticket Assistant",
         ]
     )
-    return "\n".join(lines)
 
 
 # Background loop to post summary reports

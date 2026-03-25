@@ -18,6 +18,7 @@ from main.bot import client
 # ===| Embed and role resolution helpers |===
 #
 # Build and maintain the runtime permissions panel presentation
+
 def build_perms_embed(guild: discord.Guild, category: str) -> discord.Embed:
     category_label = PERMISSION_ROLE_CATEGORY_LABELS.get(category, category)
     roles = get_permission_roles_for_category(category)
