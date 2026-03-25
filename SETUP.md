@@ -231,6 +231,8 @@ The available commands include:
 - `/privilegedusers`
 - `/logchannelset`
 - `/passwordset`
+- `/summarychannel`
+- `/summaryfrequency`
 
 Note:
 

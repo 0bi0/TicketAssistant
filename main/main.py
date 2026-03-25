@@ -1,4 +1,5 @@
 # Necessary imports
+import asyncio
 import discord
 from discord import app_commands
 import aiosqlite
@@ -633,6 +634,16 @@ import cogs.events.message_detection
 import cogs.events.channel_deletion
 import cogs.events.guild_join
 import development.dev_commands
+
+
+
+async def on_disconnect():
+    try:
+        print("Attempting to reconnect...")
+        await client.connect(reconnect=True)
+    except Exception as e:
+        print(f"Reconnection failed: {e}")
+        await asyncio.sleep(5)
 
 
 
