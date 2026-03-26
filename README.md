@@ -13,14 +13,14 @@
 
 
 
-The Ticket Assistant is a lightweight, asynchronous Discord bot created in Python that provides real-time ticket analytics directly inside your server. While there is no central platform or website in which its hosted, you can very easily compile this code yourself and use it independently. This bot was originally created for the PvPHub Network.
+The Ticket Assistant is a lightweight, asynchronous, and extremely customizable Discord bot created in Python that provides real-time ticket analytics directly inside your server. While there is no central platform or website in which its hosted, you can very easily compile this code yourself and use it independently in as many Discord servers as you want. This bot was originally created for the [PvPHub Network](https://discord.gg/pvphub).
 
 ![Bot banner](attachments/banner.png)
 
 
 > [!IMPORTANT]
 > Due to the bot not being hosted on a central platform,
-> **it ought to be run on a VPS.**
+> **it ought to be run on a VPS or any other server that will remain online 24/7.**
 > For more information regarding how you can set the bot up for your personal usage, 
 > please consult [this](https://www.cherryservers.com/blog/host-discord-bot-on-vps) article.
 
@@ -30,13 +30,13 @@ The Ticket Assistant is a lightweight, asynchronous Discord bot created in Pytho
 
 ## Features
 
-- 🗂️ **Ticket creation & closure logging** - Records when tickets are opened and closed
-- ⏱️ **Response time tracking** - Measures how quickly staff respond after a ticket is created
-- 📊 **Ticket duration analytics** - Calculates how long tickets stay open from creation to closure
-- 🔔 **Automatic management notifications** - Sends alerts to management channels when key ticket events occur
-- 🧭 **Slash command support** - Provides easy-to-use Discord slash commands for analytics and workflows
-- 🧾 **Clean embed-based summaries** - Presents ticket metrics and logs in structured, readable embed messages
-- 💾 **Developer command integration** - Provides developer commands for bot debugging and maintenance
+- 🗂️ | **Ticket creation & closure logging** - Records when tickets are opened and closed
+- ⏱️ | **Response time tracking** - Measures how quickly staff respond after a ticket is created
+- 📊 | **Ticket duration analytics** - Calculates how long tickets stay open from creation to closure
+- 🔔 | **Automatic management notifications** - Sends alerts to management channels when key ticket events occur
+- 🧭 | **Slash command support** - Provides easy-to-use Discord slash commands for analytics and workflows
+- 🧾 | **Clean embed-based summaries** - Presents ticket metrics and logs in structured, readable embed messages
+- 💾 | **Developer command integration** - Provides developer commands for bot debugging and maintenance
 
 
 ---
