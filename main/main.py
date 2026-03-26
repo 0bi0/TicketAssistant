@@ -13,18 +13,14 @@ from collections import Counter
 from dotenv import load_dotenv
 
 
-# Windows compatibility
-try:
+
+
+# Windows and Linux compatability
+if sys.platform == "win32":
     import msvcrt
-except ImportError:
-    msvcrt = None
-
-
-# Linux compatibility
-try:
+elif sys.platform in ("linux", "darwin"):
     import fcntl
-except ImportError:
-    fcntl = None
+
 
 
 try:
@@ -637,6 +633,7 @@ import development.dev_commands
 
 
 
+# Handles unexpected disconnections and attempts to reconnect with backoff
 async def on_disconnect():
     try:
         print("Attempting to reconnect...")
