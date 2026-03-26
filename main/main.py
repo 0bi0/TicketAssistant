@@ -13,14 +13,11 @@ from collections import Counter
 from dotenv import load_dotenv
 
 
-
-
 # Windows and Linux compatability
 if sys.platform == "win32":
     import msvcrt
 elif sys.platform in ("linux", "darwin"):
     import fcntl
-
 
 
 try:
@@ -52,6 +49,8 @@ from main.bot import client, tree, TICKETS_BOT_ID
 from commands.summary_commands import initialize_summary_reporting
 
 
+
+# Global interaction check to enforce maintenance mode restrictions
 async def _maintenance_interaction_check(interaction: discord.Interaction) -> bool:
     if not interaction.guild:
         return True
