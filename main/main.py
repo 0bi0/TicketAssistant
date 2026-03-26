@@ -11,13 +11,15 @@ import io
 from datetime import datetime, timedelta
 from collections import Counter
 from dotenv import load_dotenv
+import fcntl
+import msvcrt
 
 
-# Windows and Linux compatability
+'''# Windows and Linux compatability
 if sys.platform == "win32":
     import msvcrt
 elif sys.platform in ("linux", "darwin"):
-    import fcntl
+    import fcntl'''
 
 
 try:
