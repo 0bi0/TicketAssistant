@@ -10,7 +10,7 @@ Release versions that will receive security updates.
 
 ## Reporting a Vulnerability
 
-If you discover a security vulnerability, please report it by emailing [TA-vulnerabilities@proton.me](mailto:TA-vulnerabilities@proton.me).
+If you discover a security vulnerability, please report it by emailing [vulnerabilities@ticketassistant.dev](mailto:vulnerabilities@ticketassistant.dev).
 
 When reporting, please include as much of the following information as possible:
 
