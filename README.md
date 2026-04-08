@@ -15,6 +15,9 @@
 
 The Ticket Assistant is a lightweight, asynchronous, and customizable Discord bot created in Python that provides real-time ticket analytics directly inside your server. While there is no central platform or website in which its hosted, you can easily compile this code yourself and use it independently. This bot was originally created for the [PvPHub Network](https://discord.gg/pvphub). 
 
+For any potential inquiries, please contact [admin@ticketassistant.dev](mailto:admin@ticketassistant.dev).
+
+
 ![Bot banner](attachments/banner.png)
 
 
@@ -119,8 +122,3 @@ the MIT License as well.
 
 This is not an official Discord product, nor is it affiliated with or endorsed by Discord Inc.
 
-
----
-
-
-For any potential inquiries, please contact [admin@ticketassistant.dev](mailto:admin@ticketassistant.dev).

@@ -11,15 +11,12 @@ import io
 from datetime import datetime, timedelta
 from collections import Counter
 from dotenv import load_dotenv
-import fcntl
-import msvcrt
-
-
-'''# Windows and Linux compatability
 if sys.platform == "win32":
     import msvcrt
-elif sys.platform in ("linux", "darwin"):
-    import fcntl'''
+    fcntl = None
+else:
+    import fcntl
+    msvcrt = None
 
 
 try:
@@ -498,7 +495,7 @@ async def run_ticket_stats(interaction: discord.Interaction, days: int, category
     description_content = (
         f"# 📊 Ticket Statistics\n"
         f"-# Showing stats for {label} over the past {days} day(s)\n\n"
-        f"**- Total Tickets**: `{len(tickets)}`\n"
+        f"- **Total Tickets:** `{len(tickets)}`\n"
     )
 
     # Only adds the breakdown if not filtering by a specific category
@@ -510,18 +507,18 @@ async def run_ticket_stats(interaction: discord.Interaction, days: int, category
 
         # Displays the first set of information for tickets
         description_content += (
-            f"**- General**: `{counts.get('General Tickets', 0)}`\n"
-            f"**- Reports**: `{counts.get('Player-Reports', 0)}`\n"
-            f"**- Appeals**: `{counts.get('Appeals', 0)}`\n"
+            f"- **General:** `{counts.get('General Tickets', 0)}`\n"
+            f"- **Reports:** `{counts.get('Player-Reports', 0)}`\n"
+            f"- **Appeals:** `{counts.get('Appeals', 0)}`\n"
         )
 
     # Displays the second set of information for tickets
     description_content += (
-        f"**- Peak Concurrent**: `{peak_open}`\n"
-        f"**- Average Initial Response**: `{fmt(avg_first)}`\n"
-        f"**- Average Response Time**: `{fmt(avg_rep_response)}`\n"
-        f"**- Average Duration**: `{fmt(avg_handle)}`\n"
-        f"**- Handled Tickets**: `{sum(graph_counts)}`"
+        f"- **Peak Concurrent:** `{peak_open}`\n"
+        f"- **Average Initial Response:** `{fmt(avg_first)}`\n"
+        f"- **Average Response Time:** `{fmt(avg_rep_response)}`\n"
+        f"- **Average Duration:** `{fmt(avg_handle)}`\n"
+        f"- **Handled Tickets:** `{sum(graph_counts)}`"
     )
 
     embed = discord.Embed(description=description_content,color=discord.Color.from_rgb(182, 182, 182))
