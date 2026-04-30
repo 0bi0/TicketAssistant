@@ -260,7 +260,6 @@ class PasswordSetModal(discord.ui.Modal, title="Set Maintenance Password"):
         await interaction.response.send_message("✅ Maintenance password has been updated.", ephemeral=True)
 
         log_line_password = f"[🔐 MAINT PASSWORD SET] {interaction.user} updated maintenance password in guild {interaction.guild.id}"
-        print(log_line_password)
         print("-" * len(log_line_password))
 
 
