@@ -22,9 +22,9 @@ For any potential inquiries, please contact [admin@ticketassistant.dev](mailto:a
 
 
 > [!IMPORTANT]
-> Due to the bot not being hosted on a central platform,
-> **it ought to be run on a VPS or any other server.**
-> For more information regarding how you can set the bot up for your personal usage, 
+> You can add the bot to your server by adding it from
+> https://ticketassistant.dev/. Otherwise, you may build the project locally.
+> For more information regarding how you can set the bot up for dev-related usage, 
 > please consult [this](https://www.cherryservers.com/blog/host-discord-bot-on-vps) article.
 
 
